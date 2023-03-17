@@ -6,3 +6,14 @@ body {
     font-family: Helvetica, Arial, sans-serif;
     background: #F5F5F5
 }
+
+button[disabled] {
+    border: 1px solid red;
+    color: red;
+}
+
+button:disabled:hover {
+    background: white;
+    color: red;
+}
+  

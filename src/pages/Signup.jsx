@@ -1,31 +1,10 @@
 import Input from "../components/Input"
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { MdSend } from 'react-icons/md';
+import { Link } from 'react-router-dom'
+import { MdLogin, MdSend } from 'react-icons/md';
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { SIGN_UP } from '../graphql/mutations';
-import { useEffect } from "react";
-import { toast } from 'react-toastify'
-import { useDispatch } from "react-redux";
+import { FaGithub, FaGoogle } from 'react-icons/fa'
 
 function Signup() {
-
-    const [signup, { data, loading, error }] = useMutation(SIGN_UP);
-
-    useEffect(() => {
-
-        if(data && !loading) {
-            localStorage.setItem('user', JSON.stringify(data.signup));
-            toast.success('Signed In successfully')
-            window.location.href = '/';
-        }
-
-
-        if(error) {
-            toast.error('An Error Ocurred');
-        }
-
-    }, [data, error, loading])
 
     const [formData, setFormData] = useState({
         name: '', 
@@ -42,23 +21,16 @@ function Signup() {
         password2: ''
     });
 
-
     const {name, email, password, password2, profilePic} = formData;
 
     const {name: nameErr, email: emailErr, password: passwordErr, password2: password2Err} = errors;
 
+    const isError = nameErr !== '' || emailErr !== '' || passwordErr !== '' || password2Err !== '';
+
+    console.log(isError);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        signup({
-            variables: {
-                name, 
-                email, 
-                password, 
-                password2
-            }
-        });
     }
 
     const handleChange  = (e) => {
@@ -140,36 +112,46 @@ function Signup() {
         }
     }
 
+
   return (
     <section className="mt-4">
-        <form className="flex flex-col mx-auto  max-w-[500px] bg-primary p-5 border rounded-md gap-4 justify-center" 
+       
+         <form className="flex flex-col mx-auto  max-w-[700px] bg-primary p-5 border rounded-md gap-4 justify-center" 
         onSubmit={handleSubmit}>  
 
-        {
-            error &&
-            <p>Error Occured</p>
-        }
-      
         <h1 className="font-bold">Welcome to DEV Community</h1>
         <p className="text-gray-600">DEV Community is a community of 1,022,645 amazing developers</p>
+
+        <div className="grid sm:grid-cols-2 grid-cols-1 gap-5">
         
-            <Input styles='p-1 border rounded-sm' name="name" label={'Name'} type='text' placeholder={'Name'} value={name} onChange={handleChange} onBlur={onBlur} err={nameErr}  />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="name" label={'Name'} type='text' placeholder={'Name'} value={name} onChange={handleChange} onBlur={onBlur} err={nameErr}  />
             
-            <Input styles='p-1 border rounded-sm' name="email" label={'Email'} type='email' placeholder={'Email'} value={email} onChange={handleChange} onBlur={onBlur} err={emailErr} />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="email" label={'Email'} type='email' placeholder={'Email'} value={email} onChange={handleChange} onBlur={onBlur} err={emailErr} />
             
-            <Input styles='p-1 border rounded-sm' name="password" label={'Password'} type='password' placeholder={'Password'} value={password} onChange={handleChange} onBlur={onBlur} err={passwordErr} />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="password" label={'Password'} type='password' placeholder={'Password'} value={password} onChange={handleChange} onBlur={onBlur} err={passwordErr} />
            
-            <Input styles='p-1 border rounded-sm' name="password2" label={'Confirm Password'} type='password' placeholder={'Password'} value={password2} onChange={handleChange} onBlur={onBlur} err={password2Err} />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="password2" label={'Confirm Password'} type='password' placeholder={'Password'} value={password2} onChange={handleChange} onBlur={onBlur} err={password2Err} />
            
-            <Input styles='p-1 border rounded-sm' name="file" label={'Profile Picture'} type='file' placeholder={'Password'} onChange={handleChange} />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="file" label={'Profile Picture'} type='file' placeholder={'Password'} onChange={handleChange} />
            
-            <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 
-            justify-center' type="submit">Submit <MdSend /></button>
-    
-            <Link to='/auth/google' className="flex hover:text-textHover border items-end justify-center p-2">
-                Sign In With Google
-                <img src='/google.jpg' className="h-8" alt="" />
-            </Link>
+
+        </div>
+
+            <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 justify-center cursor-pointer' disabled={isError} type="submit">Signup <MdLogin /></button>
+
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              
+                <Link to='/auth/google' className="flex hover:scale-105 transition-all duration-150 border items-center gap-3 justify-center shadow-md p-2">
+                    Signin With Google
+                    <img src="/google.jpg" className="max-h-[32px]" alt="" />
+                </Link>
+
+                <Link to='/auth/google' className="flex hover:scale-105 transition-all duration-150 rounded-md hover:bg-black gap-3 hover:text-white text-black border items-center justify-center shadow-md p-2">
+                    Signin With Github 
+                    <FaGithub size={24} />
+                </Link> 
+           
+            </div>
         
         </form>
 
