@@ -1,36 +1,58 @@
 import Input from "../components/Input"
 import { Link } from 'react-router-dom'
-import { MdLogin, MdSend } from 'react-icons/md';
+import { MdLogin, MdOutlineSignalCellularNoSim } from 'react-icons/md';
 import { useState } from "react";
-import { FaGithub, FaGoogle } from 'react-icons/fa'
+import { FaGithub } from 'react-icons/fa'
+import { useDispatch } from "react-redux";
+import { signUp } from "../app/features/userSlice";
 
 function Signup() {
 
+    // All the form states 
     const [formData, setFormData] = useState({
         name: '', 
         email: '', 
         password: '', 
         password2: '',
-        profilePic: ''
+        profileImg: '',
+        username: ''
     })
 
+    // All Error states 
     const [errors, setErrors] = useState({
         name: '', 
         email: '', 
         password: '',
-        password2: ''
+        password2: '',
+        username: ''
     });
 
-    const {name, email, password, password2, profilePic} = formData;
+    // Destructured form states 
+    const {name, email, password, password2, profileImg, username} = formData;
 
-    const {name: nameErr, email: emailErr, password: passwordErr, password2: password2Err} = errors;
+    // Destructured error states 
+    const {name: nameErr, email: emailErr, password: passwordErr, password2: password2Err, username: usernameErr} = errors;
 
-    const isError = nameErr !== '' || emailErr !== '' || passwordErr !== '' || password2Err !== '';
+    // checking if any error exist 
+    const isError = nameErr !== '' || emailErr !== '' || passwordErr !== '' || password2Err !== '' || usernameErr !== '';
+    
+    const dispatch = useDispatch();
+    // const user = useSelector(state => state.user.user);
+    
 
-    console.log(isError);
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
+
+        const formData = new FormData();
+        
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('confirmPassword', password2);
+        formData.append('profileImg', profileImg);
+
+        dispatch(signUp(formData));
     }
 
     const handleChange  = (e) => {
@@ -40,6 +62,14 @@ function Signup() {
         })
     }
 
+    const handleFile = (e) => {
+
+        setFormData({
+            ...formData, 
+            [e.target.name]: e.target.files[0]
+
+        })
+    }
 
     const onBlur = (e) => {
         // check length 
@@ -51,7 +81,7 @@ function Signup() {
 
         } else {
 
-            // Additional validation for name 
+            // Additional validation for name  
 
             if(e.target.name === 'name') {
               
@@ -67,6 +97,24 @@ function Signup() {
                     });
                 }
             }
+
+             // Additional validation for username  
+
+             else if(e.target.name === 'username') {
+              
+                if(username.length < 5) {
+                    setErrors({
+                        ...errors, 
+                        username: 'Username should be more than 5 characters'
+                    });
+                } else {
+                    setErrors({
+                        ...errors, 
+                        username: ''
+                    });
+                }
+            }
+
 
             // Additional valiadtion for password 
             else if(e.target.name === 'password') { 
@@ -112,46 +160,58 @@ function Signup() {
         }
     }
 
+    const handleAuth = (provider) => {
+        window.location.href = `http://localhost:5000/auth/${provider}`
+    }
+ 
 
   return (
     <section className="mt-4">
        
          <form className="flex flex-col mx-auto  max-w-[700px] bg-primary p-5 border rounded-md gap-4 justify-center" 
-        onSubmit={handleSubmit}>  
+        onSubmit={handleSubmit} encType='multipart/form-data'>  
 
         <h1 className="font-bold">Welcome to DEV Community</h1>
         <p className="text-gray-600">DEV Community is a community of 1,022,645 amazing developers</p>
 
         <div className="grid sm:grid-cols-2 grid-cols-1 gap-5">
         
-            <Input styles='p-1 border rounded-sm focus:outline-none' name="name" label={'Name'} type='text' placeholder={'Name'} value={name} onChange={handleChange} onBlur={onBlur} err={nameErr}  />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="username" label={`Username ${username === '' ? '*' : ''}`} type='text' placeholder={'NJK47'} value={username} onChange={handleChange} onBlur={onBlur} err={usernameErr}  />
+
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="name" label={`Name ${name === '' ? '*' : ''}`} type='text' placeholder={'John'} value={name} onChange={handleChange} onBlur={onBlur} err={nameErr}  />
             
-            <Input styles='p-1 border rounded-sm focus:outline-none' name="email" label={'Email'} type='email' placeholder={'Email'} value={email} onChange={handleChange} onBlur={onBlur} err={emailErr} />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="email" label={`Email ${email === '' ? '*' : ''}`} type='email' placeholder={'niko@gmail.com'} value={email} onChange={handleChange} onBlur={onBlur} err={emailErr} />
             
-            <Input styles='p-1 border rounded-sm focus:outline-none' name="password" label={'Password'} type='password' placeholder={'Password'} value={password} onChange={handleChange} onBlur={onBlur} err={passwordErr} />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="password" label={`Password ${password === '' ? '*' : ''}`} type='password' placeholder={'12345678'} value={password} onChange={handleChange} onBlur={onBlur} err={passwordErr} />
            
-            <Input styles='p-1 border rounded-sm focus:outline-none' name="password2" label={'Confirm Password'} type='password' placeholder={'Password'} value={password2} onChange={handleChange} onBlur={onBlur} err={password2Err} />
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="password2" label={`Confirm Password ${password2 === '' ? '*' : ''}`} type='password' placeholder={'12345678'} value={password2} onChange={handleChange} onBlur={onBlur} err={password2Err} />
            
-            <Input styles='p-1 border rounded-sm focus:outline-none' name="file" label={'Profile Picture'} type='file' placeholder={'Password'} onChange={handleChange} />
-           
+            <Input styles='p-1 border rounded-sm focus:outline-none' name="profileImg" label={'Profile Picture'} type='file' placeholder={'Password'} onChange={handleFile} />
 
         </div>
 
-            <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 justify-center cursor-pointer' disabled={isError} type="submit">Signup <MdLogin /></button>
-
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              
-                <Link to='/auth/google' className="flex hover:scale-105 transition-all duration-150 border items-center gap-3 justify-center shadow-md p-2">
-                    Signin With Google
-                    <img src="/google.jpg" className="max-h-[32px]" alt="" />
-                </Link>
-
-                <Link to='/auth/google' className="flex hover:scale-105 transition-all duration-150 rounded-md hover:bg-black gap-3 hover:text-white text-black border items-center justify-center shadow-md p-2">
-                    Signin With Github 
-                    <FaGithub size={24} />
-                </Link> 
-           
+        {
+            profileImg !== '' &&
+            <div>
+                <img src={profileImg} className="max-h-[300px] w-[200px] object-cover object-center rounded-[2rem]" alt="" />
             </div>
+        }
+
+        <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 justify-center cursor-pointer' disabled={isError} type="submit">Signup <MdLogin /></button>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            
+            <button onClick={() => handleAuth('google')} className="flex hover:scale-105 transition-all duration-150 border items-center gap-3 justify-center shadow-md p-2">
+                Signin With Google
+                <img src="/google.jpg" className="max-h-[32px]" alt="" />
+            </button>
+
+            <button onClick={() => handleAuth('github')} className="flex hover:scale-105 transition-all duration-150 rounded-md hover:bg-black gap-3 hover:text-white text-black border items-center justify-center shadow-md p-2">
+                Signin With Github 
+                <FaGithub size={24} />
+            </button> 
+        
+        </div>
         
         </form>
 
