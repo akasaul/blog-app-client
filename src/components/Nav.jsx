@@ -18,9 +18,9 @@ function Nav() {
 
       {/* Container  */}
       
-      <div className="container max-w-[1200px] mx-auto flex justify-between px-4 py-2">
+      <div className="container border-b bg-white max-w-[1200px] mx-auto flex justify-between px-4 py-2">
 
-          <div className='flex items-center gap-3'>
+          <div className='flex top items-center gap-3'>
 
             <button className='hover:text-textHover md:hidden hover:bg-blue-100 h-full px-2 rounded-md' onClick={() => setShow(true)}>
               <MdMenu size={28} />
@@ -44,11 +44,20 @@ function Nav() {
 
           <div className='flex gap-2 items-center'>
             
+
+            {
+              user ? 
+              <Link to='/new' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover hover:text-primary hover:underline'>
+                Create Post
+              </Link>  : 
+              <Link to='/login' className='text-md md:flex gap-2 items-center px-3 py-1 hover:bg-blue-100 hover:text-textHover hover:underline hidden'>
+                Login
+              </Link> 
+
+            }
+
             <MdSearch size={30} className='md:hidden' />
 
-            <Link to='/login' className='text-md md:flex gap-2 items-center px-3 py-1 hover:bg-blue-100 hover:text-textHover hover:underline hidden'>
-              Login
-            </Link>
 
             { 
              user ?
