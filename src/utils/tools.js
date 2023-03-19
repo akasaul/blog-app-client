@@ -1,12 +1,12 @@
 export const tools = {
-  bold: '****',
-  italic: '__', 
-  link: '[](url)',
-  list: '\n-',  
-  heading: '\n##',
-  underline: '<u></u>',
-  break: '\n --- \n',
-  code: '\n```\n```\n'
+  bold: ' ****',
+  italic: ' __', 
+  link: ' [](url)',
+  list: ' \n-',  
+  heading: ' \n##',
+  underline: ' <u></u>',
+  break: ' \n --- \n',
+  code: ' \n```\n \n```\n'
 }
 
 export const mapTools = (tool) => {

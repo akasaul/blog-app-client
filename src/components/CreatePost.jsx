@@ -24,8 +24,30 @@ function CreatePost() {
       case 'italic': 
         setInputPos(textRef.current, content.length - 1);
         return;
+
       case 'link': 
         setInputSelection(textRef.current, content.length - 4, content.length - 1);
+        return
+        
+      case 'list': 
+        setInputPos(textRef.current, content.length);
+        return;
+
+      case 'heading': 
+        setInputPos(textRef.current, content.length);
+        return;
+
+      case 'underline': 
+        setInputPos(textRef.current, content.length - 4);
+        return;
+
+      case 'break': 
+        setInputPos(textRef.current, content.length);
+        return;
+
+      case 'code': 
+        setInputPos(textRef.current, content.length - 5);
+        return;
 
     }
   }, [content]);
