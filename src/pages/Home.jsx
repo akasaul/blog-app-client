@@ -1,6 +1,15 @@
+import Menu from '../components/Menu'
+import Listing from '../components/Listings';
+import Main from '../components/Main';
+
+
 function Home() {
   return (
-    <div>Home</div>
+    <div className='max-w-[1200px] gap-5 flex justify-between mt-5 mx-auto'>
+      <Menu />
+      <Main />
+      <Listing />
+    </div>
   )
 }
 

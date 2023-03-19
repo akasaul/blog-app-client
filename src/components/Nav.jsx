@@ -63,7 +63,6 @@ function Nav() {
 
         
         {/* Side bar  */}
-
         
           <section className='fixed' 
             style={{
@@ -214,9 +213,6 @@ function Nav() {
 
           </section>
 
-
-
-        
       </div>
 
     </nav>
