@@ -3,19 +3,22 @@ import { MdLogin, MdSend } from 'react-icons/md';
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logIn } from "../app/features/auth/authSlice";
 
 function Login() {
-
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState({
-        email: '', 
+        username: '', 
         password: '', 
     })
 
-    const {email, password} = formData;
+    const {username, password} = formData;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        dispatch(logIn(formData));
     }
 
     const handleChange  = (e) => {
@@ -33,7 +36,7 @@ function Login() {
         <h1 className="font-bold">Welcome to DEV Community</h1>
         <p className="text-gray-600">DEV Community is a community of 1,022,645 amazing developers</p>
         
-            <Input styles='p-1 border rounded-sm' name="email" onChange={handleChange} label={'Email'} type='email' placeholder={'Email'} value={email} />
+            <Input styles='p-1 border rounded-sm' name="username" onChange={handleChange} label={'username'} type='username' placeholder={'username'} value={username} />
             
             <Input styles='p-1 border rounded-sm' name="password" onChange={handleChange} label={'Password'} type='password' placeholder={'Password'} value={password} />
            

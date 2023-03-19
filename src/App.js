@@ -3,6 +3,8 @@ import Home from './pages/Home';
 import Nav from './components/Nav';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import { Toaster } from 'react-hot-toast';
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
     </Routes>
+    <Toaster />
     </>
   );
 } 

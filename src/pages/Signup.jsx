@@ -1,21 +1,52 @@
 import Input from "../components/Input"
-import { Link } from 'react-router-dom'
-import { MdLogin, MdOutlineSignalCellularNoSim } from 'react-icons/md';
-import { useState } from "react";
+import { MdLogin } from 'react-icons/md';
+import { useEffect, useState } from "react";
 import { FaGithub } from 'react-icons/fa'
-import { useDispatch } from "react-redux";
-import { signUp } from "../app/features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../app/features/auth/authSlice";
+import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
 
+    const {user, isLoading, isFailed, isSuccess, errors: errorMessage} = useSelector(state => state.auth);
+    console.log(user);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isFailed) {
+            if(errorMessage instanceof Array) {
+                errorMessage.map(msg => toast.error(msg));
+            }
+            toast.error(errorMessage, {
+                style: {
+                    minWidth: '200px',
+                    width: '80%', 
+                }
+            });
+        }
+
+        if(isSuccess) {
+            toast.success('Successfully signed up', {
+                style: {
+                    minWidth: '200px',
+                    width: '80%', 
+                }
+            });
+            navigate('/')
+        }
+
+    }, [isFailed, isSuccess])
+
     // All the form states 
     const [formData, setFormData] = useState({
-        name: '', 
-        email: '', 
-        password: '', 
-        password2: '',
+        name: 'niko2121', 
+        email: '21sav@gmail.com', 
+        password: 'password', 
+        password2: 'password',
         profileImg: '',
-        username: ''
+        username: 'niko2121',
     })
 
     // All Error states 
@@ -63,11 +94,10 @@ function Signup() {
     }
 
     const handleFile = (e) => {
-
+        
         setFormData({
             ...formData, 
             [e.target.name]: e.target.files[0]
-
         })
     }
 
@@ -160,8 +190,13 @@ function Signup() {
         }
     }
 
-    const handleAuth = (provider) => {
-        window.location.href = `http://localhost:5000/auth/${provider}`
+    const handleAuth = async (provider) => {
+        window.location.href = `http://localhost:5000/auth/${provider}`;
+        // const newWindow = window.open(
+        //     authURI, 
+        //     '_blank', 
+        //     'width=500,height=500'
+        // )
     }
  
 
@@ -199,7 +234,10 @@ function Signup() {
 
         <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 justify-center cursor-pointer' disabled={isError} type="submit">Signup <MdLogin /></button>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        
+        </form>
+       
+        <div className="grid grid-cols-1 max-w-[700px] mx-auto gap-5 sm:grid-cols-2">
             
             <button onClick={() => handleAuth('google')} className="flex hover:scale-105 transition-all duration-150 border items-center gap-3 justify-center shadow-md p-2">
                 Signin With Google
@@ -212,8 +250,6 @@ function Signup() {
             </button> 
         
         </div>
-        
-        </form>
 
     </section>
   )

@@ -46,8 +46,6 @@ const userSlice = createSlice({
                 state.errors = action.payload;
             }) 
             .addCase(signUp.fulfilled, (state, action) => {
-
-                console.log(action.payload);
                 state.user = action.payload;
                 state.isLoading = false;
                 state.isFailed = false;

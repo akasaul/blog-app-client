@@ -2,12 +2,16 @@ import { MdClose, MdFacebook, MdHome, MdList, MdMenu, MdMic, MdMore, MdSearch, M
 
 import { FaFacebook, FaGithub, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa'
 
+import Avatar from './Avatar';
+
 import { Link } from 'react-router-dom'
 
 import { useState } from 'react'
+import { useSelector } from 'react-redux';
 
 function Nav() {
   const [show, setShow] = useState(false);
+  const {user}  = useSelector(state => state.auth);
 
   return (
     <nav className='border-b-2 bg-primary'>
@@ -46,9 +50,14 @@ function Nav() {
               Login
             </Link>
 
-            <Link to='/signup' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover hover:text-primary hover:underline'>
-              Create Account
-            </Link>
+            { 
+             user ?
+               <Avatar imgUrl={user?.profileImg} username={user?.username} id={user?.id} />:
+              <Link to='/signup' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover hover:text-primary hover:underline'>
+                Create Account
+              </Link> 
+               
+            }
 
           </div>
 
