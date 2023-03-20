@@ -21,6 +21,12 @@ const getPosts = async () => {
 }
 
 
+const getPost = async (id) => {
+  const res = await axios.get(`${API_URL}/${id}`);
+  
+  return res.data;
+}
 
 
-export default {createPost}
+
+export default {createPost, getPosts, getPost}

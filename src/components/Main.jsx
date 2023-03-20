@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import Post from './Post'
+import { getPosts } from '../app/features/post/postSlice';
+import Spinner from './spinner/Spinner';
 
 function Main() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, []);
+
+  const {posts, isLoading, isFailed, isSuccess} =  useSelector(state => state.post)
+
+  // useEffect(() => {
+  // }, [isLoading, isFailed]);
+
+  if(isLoading) {
+    return <Spinner />
+  }
+
   return (
     <div className='flex-1'>
       {/* Filter  */}
@@ -20,10 +39,12 @@ function Main() {
       {/* Posts */}
      
       <div>
-        <Post />
-        <Post />
-        <Post />
-
+        {
+          isSuccess &&
+          posts?.map(post => (
+            <Post key={post?.id} id={post?.id} username={post?.user?.username} tags={post?.tags} header={post?.header}  />
+          ))
+        }
       </div>
 
     </div>
