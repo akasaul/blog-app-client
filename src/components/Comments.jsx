@@ -1,15 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Comment from './Comment'
+import { useDispatch, useSelector } from 'react-redux';
+import { postComment } from '../app/features/comment/commentSlice';
+import { useNavigate } from 'react-router-dom';
 
-function Comments() {
+function Comments({post}) {
   
   const [comment, setComment] = useState('');
+  const { user } = useSelector(state => state.auth);
+  const {comment: newComment, isSuccess, isLoading, errors} = useSelector(state => state.comment);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(isSuccess) {
+      navigate(0);
+    }
+  }, [isSuccess])
 
   const handleSubmit = e => {
     e.preventDefault();
     console.log(comment);
+    dispatch(postComment({content: comment, user: user.id, post: post.id }));
     setComment('');
   }
+
 
   return (
     <section className='my-10 border w-full bg-accent'>
@@ -39,8 +56,12 @@ function Comments() {
         </div>
 
         <div>
-          <Comment />
-          <Comment />
+          {
+            post?.comments?.map(comment => (
+              <Comment key={comment.id} comment={comment} />              
+              )
+            )
+          }
         </div>
 
       </div>

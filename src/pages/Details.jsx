@@ -64,7 +64,7 @@ function Details() {
           </div>
         </div>
 
-        <Comments  /> 
+        <Comments post={post}  /> 
 
       </div>
 
