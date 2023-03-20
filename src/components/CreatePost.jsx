@@ -1,20 +1,41 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaHeading } from 'react-icons/fa'
-import { MdCancel, MdCode, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdLink, MdList, MdListAlt, MdOutlineBreakfastDining, MdOutlineInsertPageBreak, MdViewList } from 'react-icons/md'
+import { MdClose, MdCode, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdLink, MdList, MdListAlt, MdOutlineBreakfastDining, MdOutlineInsertPageBreak, MdViewList } from 'react-icons/md'
 import { setInputPos, setInputSelection } from '../utils/cursorPos';
 import {tools, mapTools} from '../utils/tools';
+import { tags } from '../utils/tags';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost } from '../app/features/post/postSlice';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function CreatePost() {
-  
+  // States
   const [content, setContent] = useState('');
   const [currentTool, setCurrentTool] = useState('');
+  const [tagList, setTagList] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [header, setHeader] = useState('');
+  const [image, setImage] = useState();
+
+  // Redux states and dispatcher
+  const dispatch = useDispatch();
+  const {post, isLoading, isFailed, isSuccess, errors} = useSelector(state => state.post)
+
+
+  // React router dom
+  const navigate = useNavigate();
+
 
   const textRef = useRef();
 
+  // Mapping the selected tool with the markdown code
   useEffect(() => {
     setContent(prev => prev + mapTools(currentTool));
   }, [currentTool])
 
+  // Set Cursor position
   useEffect(() => {
     switch(currentTool) {
       case 'bold': 
@@ -51,30 +72,121 @@ function CreatePost() {
 
     }
   }, [content]);
-  
+
+
+  // State of error and success
+  useEffect(() => {
+
+    if(isFailed) {
+        if(errors instanceof Array) {
+            errors.map(msg => toast.error(msg));
+        }
+        toast.error(errors, {
+            style: {
+                minWidth: '200px',
+                width: '80%', 
+            }
+        });
+    }
+
+    if(isSuccess) {
+        toast.success('Successfully Posted', {
+            style: {
+                minWidth: '200px',
+                width: '80%', 
+            }
+        });
+        navigate('/')
+    }
+
+}, [isFailed, isSuccess])  
+
+
+  // Setting Tool 
   const handleSetTool = (e) => {
     setCurrentTool(e.currentTarget.name);
   }
 
+  // Adding the selected tag to cur state
+  const handleSetTags = (tag) => {
+    setShowResults(false);
+    setSelectedTags([...selectedTags, tag])
+    console.log(selectedTags);
+  }
+ 
+  // filter tags
+  const handleChange = (e) => {
+    setTagList(
+      tags.filter(tag => tag.includes(e.target.value))
+    );
+  }
+
+  // Listed to enter key event
+  const handleTagSubmit = (e) => {
+    if(e.key == 'Enter') {
+      e.preventDefault();
+      console.log(e.target.value);
+      setSelectedTags([...selectedTags, e.target.value])
+    }
+  }
+  
+  // On Form Submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('header', header);
+    formData.append('tags', selectedTags?.join(','));
+    formData.append('content', content);
+    formData.append('imageUrl', image);
+
+    dispatch(createPost(formData));
+  }
 
 
   return (
     <div>
-      <form className='bg-white flex flex-col gap-2 rounded-lg max-w-[600px] mx-auto'>
+      <form className='bg-white flex flex-col gap-2 rounded-lg max-w-[600px] mx-auto' onSubmit={handleSubmit}>
 
         <section className='border'>
 
             <div className='p-5 flex flex-col gap-2'>
 
-              <input type="file" name="coverImg" />
-              <input type="text" name="title" id="" placeholder='New post title here...' className='p-2 text-[24px] outline-none font-bold' />
-            
-              <select name="tags">
-                <option name="tag">#javascript</option>
-                <option name="tag">#python</option>
-                <option name="tag">#php</option>
-                <option name="tag">#whatever</option>
-              </select>
+              <h1 className='text-md font-bold '>Cover Image</h1>
+              <input type="file" name="coverImg" onChange={e => setImage(e.target.files[0])}/>
+              
+              <img className='max-h-[200px] w-full object-cover object-top' src={image && URL.createObjectURL(image)} alt="" />
+             
+              <input type="text" name="title" onClick={e => setHeader(e.target.value)} placeholder='New post title here...' className='p-2 text-[24px] outline-none font-bold' />
+
+              <div className='flex gap-1'>
+                {
+                  selectedTags.length > 0 &&
+                    selectedTags.map(tag => 
+                      <button key={tag} type='button' className='text-gray-600 flex item-center gap-1 p-1 px-2 rounded-lg hover:bg-textPrimary hover:text-white border'>#{tag}
+
+                      <MdClose className='hover:scale-110' onClick={() => setSelectedTags(selectedTags.filter(currentTag => currentTag !== tag))} />
+                      </button>
+                    )
+                }
+                
+                <div className='relative'>
+                  <input type="text" onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
+                  {
+                    showResults &&
+                      <ul className='absolute  bg-white
+                      left-0 right-0'>
+                        {
+                          tagList.map(tag =>
+                            <li key={tag} onClick={() => handleSetTags(tag)} className='p-2 text-sm border-b cursor-pointer hover:bg-accent'>#{tag}</li>
+                        )
+                        }
+                      </ul>
+
+                  }
+                </div>
+              
+              </div>
 
             </div>
           
@@ -126,7 +238,7 @@ function CreatePost() {
             Publish
           </button>
 
-          <button className='text-[#4F46E5] border-[#4F46E5] border h-10 w-24 rounded-md bg-white'>
+          <button type='button' className='text-[#4F46E5] border-[#4F46E5] border h-10 w-24 rounded-md bg-white'>
             Cancel
           </button>
 
