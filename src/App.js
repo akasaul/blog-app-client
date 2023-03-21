@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Details from './pages/Details';
 import NewPost from './pages/NewPost';
 import { Toaster } from 'react-hot-toast';
+import EditPost from './pages/EditPost'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/posts/:id' element={<Details />} />
         <Route path='/new' element={<NewPost />} />
+        <Route path='/edit' element={<EditPost />} />
     </Routes>
     <Toaster />
     </>

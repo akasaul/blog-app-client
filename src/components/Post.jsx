@@ -45,7 +45,7 @@ const Post = ({username, comments, tags,avatar, setShowModal, header, id}) => {
 
           <div className='flex justify-between my-5'>
 
-            {/* <div className='flex items-center gap-5'>
+            <div className='hidden sm:flex items-center gap-5'>
               
               <button className='flex hover:text-textHover cursor-pointer text-sm items-center gap-4 text-gray-700' onClick={handleLike}>
                 <MdOutlineFavoriteBorder  size={18} />
@@ -63,9 +63,9 @@ const Post = ({username, comments, tags,avatar, setShowModal, header, id}) => {
                 }
               </Link>
 
-            </div> */}
+            </div>
 
-            <div className='flex items-center gap-5'>
+            <div className='flex sm:hidden items-center gap-5'>
               
               <button className='flex hover:text-textHover cursor-pointer text-sm items-center gap-4 text-gray-700' onClick={handleLike}>
                 <MdOutlineFavoriteBorder  size={18} />

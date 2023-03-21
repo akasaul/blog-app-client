@@ -25,6 +25,18 @@ const deletePost = async (id, token) => {
   return res.data;
 }
 
+const updatePost = async (formData, id, token) => {
+  const res = await axios.put(`${API_URL}/${id}`, formData, {
+    headers: {
+        "Content-Type": "multipart/form-data",
+        'token': `Bearer ${token}`
+    }
+  });
+  
+  return res.data;
+}
+
+
 const getPosts = async () => {
   const res = await axios.get(API_URL);
   
@@ -40,4 +52,4 @@ const getPost = async (id) => {
 
 
 
-export default {createPost, getPosts, getPost, deletePost}
+export default {createPost, getPosts, getPost, deletePost, updatePost}

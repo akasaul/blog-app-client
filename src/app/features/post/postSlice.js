@@ -64,6 +64,17 @@ export const getPost = createAsyncThunk(
     }
   )
 
+  export const updatePost = createAsyncThunk(
+    'post/updatePost', 
+    async ({formData, id}, thunkAPI) => {
+        try {
+          return await postAPI.updatePost(formData, id, thunkAPI.getState().auth.user.token);
+        } catch(err) {
+            const message = err.response.data.message;
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+  )
 
 
 
@@ -160,6 +171,28 @@ const postSlice = createSlice({
         }) 
         .addCase(deletePost.fulfilled, (state, action) => {
             state.isDeleted = true;
+            state.isLoading = false;
+            state.isFailed = false;
+            state.isSuccess = true;
+            state.errors = null;
+        }) 
+
+
+          // Update Post 
+          .addCase(updatePost.pending, (state, action) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.isFailed = false;
+            state.errors = null;
+        }) 
+        .addCase(updatePost.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.isFailed = true;
+            state.errors = action.payload;
+        }) 
+        .addCase(updatePost.fulfilled, (state, action) => {
+            state.post = action.payload;
             state.isLoading = false;
             state.isFailed = false;
             state.isSuccess = true;

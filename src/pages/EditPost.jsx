@@ -5,29 +5,26 @@ import { setInputPos, setInputSelection } from '../utils/cursorPos';
 import {tools, mapTools} from '../utils/tools';
 import { tags } from '../utils/tags';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost } from '../app/features/post/postSlice';
+import { createPost, updatePost } from '../app/features/post/postSlice';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { reset } from '../app/features/post/postSlice';
 
-function CreatePost() {
+function EditPost() {
+  const [params] = useSearchParams();
+
   // States
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(params.get('content')?.replaceAll('@', '#'));
   const [currentTool, setCurrentTool] = useState('');
   const [tagList, setTagList] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [header, setHeader] = useState('');
+  const [selectedTags, setSelectedTags] = useState(params.get('tags')?.split(','));
+  const [header, setHeader] = useState(params.get('header'));
   const [image, setImage] = useState();
 
   // Redux states and dispatcher
   const dispatch = useDispatch();
   const {post, isLoading, isFailed, isSuccess, errors} = useSelector(state => state.post)
-
-
-  // React router dom
-  const navigate = useNavigate();
-
 
   const textRef = useRef();
 
@@ -116,7 +113,6 @@ function CreatePost() {
   const handleSetTags = (tag) => {
     setShowResults(false);
     setSelectedTags([...selectedTags, tag])
-    console.log(selectedTags);
   }
  
   // filter tags
@@ -130,7 +126,6 @@ function CreatePost() {
   const handleTagSubmit = (e) => {
     if(e.key == 'Enter') {
       e.preventDefault();
-      console.log(e.target.value);
       setSelectedTags([...selectedTags, e.target.value])
     }
   }
@@ -145,7 +140,7 @@ function CreatePost() {
     formData.append('content', content);
     formData.append('imageUrl', image);
 
-    dispatch(createPost(formData));
+    dispatch(updatePost({formData, id: params.get('id')}));
   }
 
 
@@ -159,14 +154,18 @@ function CreatePost() {
 
               <h1 className='text-md font-bold '>Cover Image</h1>
               <input type="file" name="coverImg" onChange={e => setImage(e.target.files[0])}/>
-              
-              <img className='max-h-[200px] w-full object-cover object-top' src={image && URL.createObjectURL(image)} alt="" />
+              {
+                image ?
+                <img className='max-h-[200px] w-full object-cover object-top' src={image && URL.createObjectURL(image)} alt="" /> : 
+                params.get('imageUrl') &&
+                <img className='max-h-[200px] w-full object-cover object-top' src={`http://localhost:5000/${params.get('imageUrl')}`} alt="" />                
+              }
              
               <input type="text" name="title" value={header} onChange={e => setHeader(e.target.value)} placeholder='New post title here...' className='p-2 text-[24px] outline-none font-bold' />
 
               <div className='flex gap-1'>
                 {
-                  selectedTags.length > 0 &&
+                  selectedTags?.length > 0 &&
                     selectedTags.map(tag => 
                       <button key={tag} type='button' className='text-gray-600 flex item-center gap-1 p-1 px-2 rounded-lg hover:bg-textPrimary hover:text-white border'>#{tag}
 
@@ -254,4 +253,4 @@ function CreatePost() {
   )
 }
 
-export default CreatePost
+export default EditPost

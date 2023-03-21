@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { getPost } from '../app/features/post/postSlice';
 import AuthorInfo from '../components/AuthorInfo'
 import Content from '../components/Content'
-import { MdDelete, MdOutlineBookmarkBorder, MdOutlineComment, MdOutlineDelete, MdOutlineFavoriteBorder, MdOutlineMoreHoriz, MdReadMore } from 'react-icons/md'
+import { MdDelete, MdOutlineBookmarkBorder, MdOutlineComment, MdOutlineDelete, MdOutlineEdit, MdOutlineFavoriteBorder, MdOutlineMoreHoriz, MdReadMore } from 'react-icons/md'
 import Spinner from '../components/spinner/Spinner';
 import Comments from '../components/Comments';
 import DeleteModal from '../components/DeleteModal';
@@ -49,22 +49,26 @@ function Details() {
 
         <span className='flex flex-col items-center'>
           <button><MdOutlineFavoriteBorder size={24} className="hover:text-red-500"/> </button>
-          <p className='text-sm text-gray-700'>114</p>
+          <p className='text-sm text-gray-700 hidden sm:block'>114</p>
         </span>
 
         <span className='flex flex-col items-center'>
           <button><MdOutlineComment size={24} className="hover:text-yellow-500"/> </button>
-          <p className='text-sm text-gray-700'>60</p>
+          <p className='text-sm text-gray-700 hidden sm:block'>60</p>
         </span>
 
         <span className='flex flex-col items-center'>
           <button><MdOutlineBookmarkBorder size={24} className="hover:text-blue-500"/> </button>
-          <p className='text-sm text-gray-700'>5</p>
+          <p className='text-sm text-gray-700 hidden sm:block'>5</p>
         </span>
 
         {
           user?.id === post?.user?.id &&
-          <button onClick={handleWarning}><MdOutlineDelete size={28} className="hover:text-blue-500 self-start"/></button>
+          <>
+            <button onClick={handleWarning}><MdOutlineDelete size={28} className="hover:text-red-500 self-start"/></button>
+
+            <Link to={`/edit?header=${post?.header}&&user=${post?.user?.id}&&content=${post?.content?.replaceAll('#', '@')}&&tags=${post?.tags}&&imageUrl=${post?.imageUrl}&&id=${post?.id}`}><MdOutlineEdit size={28} className="hover:text-violet-500 self-start"/></Link>
+          </>
         }
 
         <span className='flex flex-col items-center'>
