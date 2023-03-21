@@ -3,7 +3,7 @@ export const tools = {
   italic: ' __', 
   link: ' [](url)',
   list: ' \n-',  
-  heading: ' \n##',
+  heading: ' \n# ',
   underline: ' <u></u>',
   break: ' \n --- \n',
   code: ' \n```\n \n```\n'

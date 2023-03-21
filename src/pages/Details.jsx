@@ -37,14 +37,14 @@ function Details() {
   };
 
   return (
-    <section className='flex items-start max-w-[1300px] mt-3 gap-4 mx-auto'>
+    <section className='flex border items-start max-w-[1300px] mt-3 gap-4 mx-auto'>
 
       {
         showModal &&
           <DeleteModal header={post?.header} setShowModal={setShowModal} id={post?.id} />
       }
 
-      <div className='min-w-[100px] fixed md:static bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t
+      <div className='min-w-[100px] border fixed md:static bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t
       md:border-none'>
 
         <span className='flex flex-col items-center'>
@@ -78,7 +78,7 @@ function Details() {
 
       </div>
 
-      <div className='bg-white max-w-[800px] border flex flex-col'>
+      <div className='bg-white flex-1 max-w-[800px] border flex flex-col'>
         {
           post?.imageUrl &&
           <div className='h-[250px]'>
@@ -87,7 +87,7 @@ function Details() {
         }
         
         <div className='p-6 flex gap-5 flex-col'>
-          <div className='max-w-[90%] mx-auto'>
+          <div className='max-w-[90%] mx-auto  w-full'>
             <AuthorInfo user={post?.user} />
             <Content post={post} />
           </div>
@@ -98,7 +98,7 @@ function Details() {
       </div>
 
     {/* Profile Component */}
-    <div className='hidden flex-col flex-1 gap-3 min-w-[250px] max-w-[350px] lg:flex '>
+    <div className='hidden flex-col gap-3 min-w-[250px] max-w-[350px] lg:flex '>
 
       <div className='bg-white flex flex-col gap-4  p-4 border rounded-lg '>
       

@@ -46,9 +46,11 @@ function Main() {
      
       <div>
         {
-          isSuccess &&
+          isSuccess && posts &&
           posts?.map(post => (
-            <Post key={post?.id} setShowModal={setShowModal} id={post?.id} avatar={post?.user?.profileImg} username={post?.user?.username} comments={post?.comments} tags={post?.tags} header={post?.header}  />
+            // <Post key={post?.id} time={post?.content?.split(' ')?.length / 60} setShowModal={setShowModal} id={post?.id} avatar={post?.user?.profileImg} username={post?.user?.username} comments={post?.comments} tags={post?.tags} header={post?.header}  post={post} />
+            <Post key={post?.id} setShowModal={setShowModal}  post={post} />
+
           ))
         }
       </div>

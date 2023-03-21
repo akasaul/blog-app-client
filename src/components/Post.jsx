@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { MdBookmarkBorder, MdComment, MdFavorite, MdOutlineComment, MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md'
 import useAuthStatus from '../hooks/useAuthStatus'
 
-const Post = ({username, comments, tags,avatar, setShowModal, header, id}) => {
+// const Post = ({username, comments, time, tags,avatar, setShowModal, header, id}) => {
+
+const Post = ({post, setShowModal}) => {
 
   const { isLoggedIn } = useAuthStatus();
 
@@ -13,30 +15,31 @@ const Post = ({username, comments, tags,avatar, setShowModal, header, id}) => {
     }
   }
 
+
   return (
     <div className='border rounded-md p-4 my-2 bg-white'>
 
       <div className='flex gap-5 text-gray-800'>
         {
-          avatar ?
-          <img className='max-h-[40px] w-[40px] object-contain rounded-full' src={`http://localhost:5000/${avatar}`} alt="" /> : 
+          post?.user?.profileImg ?
+          <img className='max-h-[40px] w-[40px] object-contain rounded-full' src={`http://localhost:5000/${post?.user?.profileImg}`} alt="" /> : 
           <span className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
-          rounded-full from-slate-300 to-green-500'>{username?.slice(0, 1)}</span>
+          rounded-full from-slate-300 to-green-500'>{post?.user?.username?.slice(0, 1)}</span>
         }
        
        <div className='flex-1'>
        
         <div>
-          <p className='text-sm'>{username}</p>
+          <p className='text-sm'>{post?.user?.username }</p>
           <p className='text-xs'>Mar 19</p>
         </div>
 
         <div>
-          <Link to={`/posts/${id}`} className='text-[24px] hover:text-blue-800 cursor-pointer font-[600] text-start'>{header}</Link>
+          <Link to={`/posts/${post?.id}`} className='text-[24px] hover:text-blue-800 cursor-pointer font-[600] text-start'>{post?.header}</Link>
 
           <div className='flex text-gray-700'>
            {
-              tags.split(',').map(tag => 
+              post?.tags.split(',').map(tag => 
                 <p className='p-1 px-3 text-sm'>#{tag} 
                 </p>  
               )
@@ -52,14 +55,14 @@ const Post = ({username, comments, tags,avatar, setShowModal, header, id}) => {
                 66 reactions
               </button>
 
-              <Link to={`posts/${id}/#comments`} className='flex text-sm items-center gap-4 text-gray-700 cursor-pointer'>
+              <Link to={`posts/${post?.id}/#comments`} className='flex text-sm items-center gap-4 text-gray-700 cursor-pointer'>
                 <MdOutlineComment size={18} />
                 {
-                  comments.length === 0 ? 
+                  post?.comments.length === 0 ? 
                   'No comments' :
-                  comments.length === 1 ? 
+                  post?.comments.length === 1 ? 
                   '1 comment': 
-                  `${comments.length} comments`
+                  `${post?.comments.length} comments`
                 }
               </Link>
 
@@ -72,14 +75,14 @@ const Post = ({username, comments, tags,avatar, setShowModal, header, id}) => {
                 66
               </button>
 
-              <Link to={`posts/${id}/#comments`} className='flex text-sm items-center gap-4 text-gray-700 cursor-pointer'>
+              <Link to={`posts/${post?.id}/#comments`} className='flex text-sm items-center gap-4 text-gray-700 cursor-pointer'>
                 <MdOutlineComment size={18} />
                 {
-                  comments.length === 0 ? 
+                  post?.comments?.length === 0 ? 
                   '0' :
-                  comments.length === 1 ? 
+                  post?.comments?.length === 1 ? 
                   '1': 
-                  `${comments.length}`
+                  `${post?.comments?.length}`
                 }
               </Link>
 
@@ -87,7 +90,10 @@ const Post = ({username, comments, tags,avatar, setShowModal, header, id}) => {
 
 
             <span className='flex items-center gap-3 text-sm text-gray-700'>
-              7 min read <MdBookmarkBorder size={24} />
+              {post?.content < 1 ? parseInt(post?.content * 60 ) + ' second read' : 
+              parseInt(post?.content) +  " minute read" 
+               } 
+              <MdBookmarkBorder size={24} />
             </span>
 
           </div>
