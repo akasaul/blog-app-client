@@ -8,10 +8,12 @@ import { Link } from 'react-router-dom'
 
 import { useState } from 'react'
 import { useSelector } from 'react-redux';
+import useAuthStatus from '../hooks/useAuthStatus';
 
 function Nav() {
   const [show, setShow] = useState(false);
   const {user}  = useSelector(state => state.auth);
+  const { isLoggedIn, checkingStatus } = useAuthStatus();
 
   return (
     <nav className='border-b-2 bg-primary'>
@@ -44,20 +46,18 @@ function Nav() {
 
           <div className='flex gap-2 items-center'>
             
-
             {
-              user ? 
-              <Link to='/new' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover hover:text-primary hover:underline'>
-                Create Post
-              </Link>  : 
+              !isLoggedIn ? 
               <Link to='/login' className='text-md md:flex gap-2 items-center px-3 py-1 hover:bg-blue-100 hover:text-textHover hover:underline hidden'>
                 Login
-              </Link> 
+              </Link>: 
+              <Link to='/new' className='text-md md:flex text-textHover hidden gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover hover:text-primary hover:underline'>
+                Create Post
+              </Link>  
 
             }
 
             <MdSearch size={30} className='md:hidden' />
-
 
             { 
              user ?
@@ -110,13 +110,24 @@ function Nav() {
 
                   <div className='flex flex-col gap-1'>
 
-                    <Link to='/signup' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
-                      Create Account
-                    </Link>
+                    {
+                      !isLoggedIn ? 
+                      <>
+                      <Link to='/signup' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
+                        Create Account
+                      </Link>
 
-                    <Link to="/login" className='text-gray-500 hover:text-textHover hover:bg-blue-100 hover:underline rounded-md py-2 w-full text-center'>
-                      Login
-                    </Link>
+                      <Link to="/login" className='text-gray-500 hover:text-textHover hover:bg-blue-100 hover:underline rounded-md py-2 w-full text-center'>
+                        Login
+                      </Link>
+                      </>: 
+
+                      <Link to='/new' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
+                       Create Post
+                     </Link>
+                    }
+
+
 
                   </div>
 

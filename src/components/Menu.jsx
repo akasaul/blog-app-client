@@ -2,8 +2,10 @@ import React from 'react'
 import { MdClose,  MdHome, MdList, MdMic, MdTag, MdMore} from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { FaTwitter, FaFacebook, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import useAuthStatus from '../hooks/useAuthStatus';
 
 function Menu() {
+  const { isLoggedIn, checkingStatus } = useAuthStatus();
   return (
     <>
 
@@ -26,21 +28,28 @@ function Menu() {
             We're a place where coders share, stay up-to-date and grow their careers
           </p>
 
-          <div className='flex flex-col gap-1'>
+          {
+            !isLoggedIn ?
+            <div className='flex flex-col gap-1'>
 
-            <Link to='/signup' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
-              Create Account
+              <Link to='/signup' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
+                Create Account
+              </Link>
+
+              <Link to="/login" className='text-gray-500 hover:text-textHover hover:bg-blue-100 hover:underline rounded-md py-2 w-full text-center'>
+                Login
+              </Link>
+
+            </div> :
+            <Link to='/new' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
+              Create Post
             </Link>
+          }
 
-            <Link to="/login" className='text-gray-500 hover:text-textHover hover:bg-blue-100 hover:underline rounded-md py-2 w-full text-center'>
-              Login
-            </Link>
-
-          </div>
 
         </div>
 
-        <ul>
+        <ul className='mt-4'>
         
           <li className='rounded gap-4
               hover:bg-blue-100 hover:underline py-2 px-2 flex items-end'>

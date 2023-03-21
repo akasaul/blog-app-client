@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MdBookmarkBorder, MdComment, MdFavorite, MdOutlineComment, MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md'
+import useAuthStatus from '../hooks/useAuthStatus'
 
-const Post = ({username, tags, header, id}) => {
+const Post = ({username, comments, tags,avatar, setShowModal, header, id}) => {
+
+  const { isLoggedIn } = useAuthStatus();
+
+  const handleLike = () => {
+    if(!isLoggedIn) { 
+      setShowModal(true);
+    }
+  }
+
   return (
     <div className='border rounded-md p-4 my-2 bg-white'>
 
       <div className='flex gap-5 text-gray-800'>
-        <img className='max-h-[40px] w-[40px] object-contain rounded-full' src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/tommy-shelby-cillian-murphy-peaky-blinders-1569234705.jpg?crop=0.727xw:0.484xh;0.273xw,0.0232xh&resize=768:*" alt="" />
+        {
+          avatar ?
+          <img className='max-h-[40px] w-[40px] object-contain rounded-full' src={`http://localhost:5000/${avatar}`} alt="" /> : 
+          <span className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
+          rounded-full from-slate-300 to-green-500'>{username?.slice(0, 1)}</span>
+        }
        
        <div className='flex-1'>
        
@@ -30,19 +45,46 @@ const Post = ({username, tags, header, id}) => {
 
           <div className='flex justify-between my-5'>
 
-            <div className='flex items-center gap-5'>
+            {/* <div className='flex items-center gap-5'>
               
-              <span className='flex text-sm items-center gap-4 text-gray-700'>
+              <button className='flex hover:text-textHover cursor-pointer text-sm items-center gap-4 text-gray-700' onClick={handleLike}>
                 <MdOutlineFavoriteBorder  size={18} />
                 66 reactions
-              </span>
+              </button>
 
-              <span className='flex text-sm items-center gap-4 text-gray-700'>
+              <Link to={`posts/${id}/#comments`} className='flex text-sm items-center gap-4 text-gray-700 cursor-pointer'>
                 <MdOutlineComment size={18} />
-                1 comment
-              </span>
+                {
+                  comments.length === 0 ? 
+                  'No comments' :
+                  comments.length === 1 ? 
+                  '1 comment': 
+                  `${comments.length} comments`
+                }
+              </Link>
+
+            </div> */}
+
+            <div className='flex items-center gap-5'>
+              
+              <button className='flex hover:text-textHover cursor-pointer text-sm items-center gap-4 text-gray-700' onClick={handleLike}>
+                <MdOutlineFavoriteBorder  size={18} />
+                66
+              </button>
+
+              <Link to={`posts/${id}/#comments`} className='flex text-sm items-center gap-4 text-gray-700 cursor-pointer'>
+                <MdOutlineComment size={18} />
+                {
+                  comments.length === 0 ? 
+                  '0' :
+                  comments.length === 1 ? 
+                  '1': 
+                  `${comments.length}`
+                }
+              </Link>
 
             </div>
+
 
             <span className='flex items-center gap-3 text-sm text-gray-700'>
               7 min read <MdBookmarkBorder size={24} />

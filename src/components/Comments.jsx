@@ -22,14 +22,13 @@ function Comments({post}) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(comment);
     dispatch(postComment({content: comment, user: user.id, post: post.id }));
     setComment('');
   }
 
 
   return (
-    <section className='my-10 border w-full bg-accent'>
+    <section className='my-10 border w-full bg-accent' id='comments'>
       
       <div className='max-w-[90%] flex flex-col gap-5 mx-auto p-4'>
 
@@ -37,7 +36,12 @@ function Comments({post}) {
         
         <div className='flex gap-5 mb-5'>
 
-          <img className='h-[30px]  rounded-full w-[30px] ' src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/tommy-shelby-cillian-murphy-peaky-blinders-1569234705.jpg?crop=0.727xw:0.484xh;0.273xw,0.0232xh&resize=768:*" alt="" />
+        {
+          user?.profileImg ?
+          <img className='max-h-[30px] w-[30px] object-contain rounded-full' src={`http://localhost:5000/${user?.profileImg}`} alt="" /> : 
+          <span className='bg-gradient-to-r grid place-content-center font-bold border w-[30px] h-[30px]
+          rounded-full from-slate-300 to-green-500'>{user?.username?.slice(0, 1)}</span>
+        }
 
         <form onSubmit={handleSubmit} className='w-full flex flex-col gap-5'>
             

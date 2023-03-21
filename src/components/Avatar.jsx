@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
-function avatar({imgUrl, username, id}) {
-  console.log(imgUrl);
+function Avatar({imgUrl, username, id}) {
+
   return (
     <Link to={`/profile/${id}`}>
       {
@@ -13,4 +13,4 @@ function avatar({imgUrl, username, id}) {
   )
 }
 
-export default avatar
+export default Avatar;

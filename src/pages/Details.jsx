@@ -1,19 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom'
 import { getPost } from '../app/features/post/postSlice';
 import AuthorInfo from '../components/AuthorInfo'
 import Content from '../components/Content'
-import { MdComment, MdMore, MdOutlineBookmark, MdOutlineBookmarkAdd, MdOutlineBookmarkBorder, MdOutlineComment, MdOutlineFavoriteBorder, MdOutlineMoreHoriz, MdReadMore } from 'react-icons/md'
+import { MdDelete, MdOutlineBookmarkBorder, MdOutlineComment, MdOutlineDelete, MdOutlineFavoriteBorder, MdOutlineMoreHoriz, MdReadMore } from 'react-icons/md'
 import Spinner from '../components/spinner/Spinner';
 import Comments from '../components/Comments';
+import DeleteModal from '../components/DeleteModal';
 
 function Details() {
 
+  // Getting url params
   const param = useParams();
   const dispatch = useDispatch();
   
+  // Getting Post with its states 
   const {post, isLoading, isSuccess, isFailed} = useSelector(state => state.post);
+
+  const { user } =  useSelector(state => state.auth);
+
+  // Setting modal states s
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const id = parseInt(param.id);
@@ -24,8 +32,17 @@ function Details() {
     return <Spinner />
   }
 
+  const handleWarning = () => {
+    setShowModal(true);
+  };
+
   return (
     <section className='flex items-start max-w-[1300px] mt-3 gap-4 mx-auto'>
+
+      {
+        showModal &&
+          <DeleteModal header={post?.header} setShowModal={setShowModal} id={post?.id} />
+      }
 
       <div className='min-w-[100px] fixed md:static bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t
       md:border-none'>
@@ -45,17 +62,25 @@ function Details() {
           <p className='text-sm text-gray-700'>5</p>
         </span>
 
+        {
+          user?.id === post?.user?.id &&
+          <button onClick={handleWarning}><MdOutlineDelete size={28} className="hover:text-blue-500 self-start"/></button>
+        }
+
         <span className='flex flex-col items-center'>
           <button><MdOutlineMoreHoriz size={24} className="hover:text-blue-500"/> </button>
         </span>
 
+
       </div>
 
       <div className='bg-white max-w-[800px] border flex flex-col'>
-        
-        <div className='h-[250px]'>
-          <img className='h-full w-full rounded-t-lg object-cover object-top' src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/tommy-shelby-cillian-murphy-peaky-blinders-1569234705.jpg?crop=0.727xw:0.484xh;0.273xw,0.0232xh&resize=768:*"  alt="" />
-        </div>
+        {
+          post?.imageUrl &&
+          <div className='h-[250px]'>
+            <img className='h-full w-full rounded-t-lg object-cover object-top' src={`http://localhost:5000/${post?.imageUrl}`}  alt="" />
+          </div>
+        }
         
         <div className='p-6 flex gap-5 flex-col'>
           <div className='max-w-[90%] mx-auto'>

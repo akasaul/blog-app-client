@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createPost } from '../app/features/post/postSlice';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { reset } from '../app/features/post/postSlice';
 
 function CreatePost() {
   // States
@@ -29,6 +30,11 @@ function CreatePost() {
 
 
   const textRef = useRef();
+
+  // Reset All states 
+  useEffect(() => {
+    dispatch(reset());
+  }, [])
 
   // Mapping the selected tool with the markdown code
   useEffect(() => {
@@ -96,7 +102,6 @@ function CreatePost() {
                 width: '80%', 
             }
         });
-        navigate('/')
     }
 
 }, [isFailed, isSuccess])  

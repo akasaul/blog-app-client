@@ -9,7 +9,8 @@ const initialState = {
     isLoading: false,
     isFailed: false,
     isSuccess: false,
-    errors: null
+    errors: null,
+    isDeleted: false
 }
 
 
@@ -51,11 +52,31 @@ export const getPost = createAsyncThunk(
   )
 
 
+  export const deletePost = createAsyncThunk(
+    'post/deletePost', 
+    async (id, thunkAPI) => {
+        try {
+          return await postAPI.deletePost(id, thunkAPI.getState().auth.user.token);
+        } catch(err) {
+            const message = err.response.data.message;
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+  )
+
+
+
 
 const postSlice = createSlice({
     name: 'post',
     initialState,
-    reducers: {},
+    reducers: {
+        reset(state) {
+            state.isLoading = false;
+            state.isFailed = false;
+            state.isSuccess = false;
+        }
+    },
     extraReducers: (builder) => {
         builder
             // Create Post 
@@ -101,7 +122,7 @@ const postSlice = createSlice({
           }) 
 
 
-        // Create Post 
+        // Get Post 
         .addCase(getPost.pending, (state, action) => {
             state.isLoading = true;
             state.isSuccess = false;
@@ -121,8 +142,33 @@ const postSlice = createSlice({
             state.isSuccess = true;
             state.errors = null;
         }) 
+
+         // Delete Post 
+         .addCase(deletePost.pending, (state, action) => {
+            state.isDeleted = false;
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.isFailed = false;
+            state.errors = null;
+        }) 
+        .addCase(deletePost.rejected, (state, action) => {
+            state.isDeleted = false;
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.isFailed = true;
+            state.errors = action.payload;
+        }) 
+        .addCase(deletePost.fulfilled, (state, action) => {
+            state.isDeleted = true;
+            state.isLoading = false;
+            state.isFailed = false;
+            state.isSuccess = true;
+            state.errors = null;
+        }) 
           
     }
 })
+
+export const { reset } = postSlice.actions;
 
 export default postSlice.reducer;
