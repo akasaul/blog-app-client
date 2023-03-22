@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import Login from "../../../pages/Login";
-import commentAPI from './commentAPI';
+import reactionAPI from './reactionAPI';
 
 
 const initialState = {
-    comment: null, 
+    reaction: null, 
     isLoading: false,
     isFailed: false,
     isSuccess: false,
@@ -12,11 +12,11 @@ const initialState = {
 }
 
 
-export const postComment = createAsyncThunk(
-    'comment/postComment', 
+export const postReaction = createAsyncThunk(
+    'reaction/postReaction', 
     async (formData, thunkAPI) => {
         try {
-          return await commentAPI.postComment(formData, thunkAPI.getState().auth.user.token)
+          return await reactionAPI.postReaction(formData, thunkAPI.getState().auth.user.token)
         } catch(err) {
             const message = err.response.data.message;
             return thunkAPI.rejectWithValue(message);
@@ -25,11 +25,11 @@ export const postComment = createAsyncThunk(
 )
 
 
-export const deleteComment = createAsyncThunk(
-    'comment/deleteComment', 
+export const deleteReaction = createAsyncThunk(
+    'reaction/deleteReaction', 
     async (id, thunkAPI) => {
         try {
-          return await commentAPI.deleteComment(id, thunkAPI.getState().auth.user.token)
+          return await reactionAPI.deleteReaction(id, thunkAPI.getState().auth.user.token)
         } catch(err) {
             const message = err.response.data.message;
             return thunkAPI.rejectWithValue(message);
@@ -39,48 +39,48 @@ export const deleteComment = createAsyncThunk(
 
 
 
-const commentSlice = createSlice({
-    name: 'comment',
+const reactionSlice = createSlice({
+    name: 'reaction',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            // Post Comment 
-            .addCase(postComment.pending, (state, action) => {
+            // Post Reaction 
+            .addCase(postReaction.pending, (state, action) => {
                 state.isLoading = true;
                 state.isSuccess = false;
                 state.isFailed = false;
                 state.errors = null;
             }) 
-            .addCase(postComment.rejected, (state, action) => {
+            .addCase(postReaction.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = false;
                 state.isFailed = true;
                 state.errors = action.payload;
             }) 
-            .addCase(postComment.fulfilled, (state, action) => {
-                state.comment = action.payload;
+            .addCase(postReaction.fulfilled, (state, action) => {
+                state.reaction = action.payload;
                 state.isLoading = false;
                 state.isFailed = false;
                 state.isSuccess = true;
                 state.errors = null;
             })
             
-            // Delete Comment 
-            .addCase(deleteComment.pending, (state, action) => {
+            // Delete Reaction 
+            .addCase(deleteReaction.pending, (state, action) => {
                 state.isLoading = true;
                 state.isSuccess = false;
                 state.isFailed = false;
                 state.errors = null;
             }) 
-            .addCase(deleteComment.rejected, (state, action) => {
+            .addCase(deleteReaction.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = false;
                 state.isFailed = true;
                 state.errors = action.payload;
             }) 
-            .addCase(deleteComment.fulfilled, (state, action) => {
-                state.comment = action.payload;
+            .addCase(deleteReaction.fulfilled, (state, action) => {
+                state.reaction = action.payload;
                 state.isLoading = false;
                 state.isFailed = false;
                 state.isSuccess = true;
@@ -89,4 +89,4 @@ const commentSlice = createSlice({
     }
 })
 
-export default commentSlice.reducer;
+export default reactionSlice.reducer;

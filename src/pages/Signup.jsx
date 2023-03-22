@@ -1,5 +1,5 @@
 import Input from "../components/Input"
-import { MdLogin } from 'react-icons/md';
+import { MdLogin, MdPhotoCamera } from 'react-icons/md';
 import { useEffect, useState } from "react";
 import { FaGithub } from 'react-icons/fa'
 import { useDispatch, useSelector } from "react-redux";
@@ -220,15 +220,23 @@ function Signup() {
             <Input styles='p-1 border rounded-sm focus:outline-none' name="password" label={`Password ${password === '' ? '*' : ''}`} type='password' placeholder={'12345678'} value={password} onChange={handleChange} onBlur={onBlur} err={passwordErr} />
            
             <Input styles='p-1 border rounded-sm focus:outline-none' name="password2" label={`Confirm Password ${password2 === '' ? '*' : ''}`} type='password' placeholder={'12345678'} value={password2} onChange={handleChange} onBlur={onBlur} err={password2Err} />
-           
-            <Input styles='p-1 border rounded-sm focus:outline-none' name="profileImg" label={'Profile Picture'} type='file' placeholder={'Password'} onChange={handleFile} />
+          
+            <div className="flex items-center hover:text-black text-gray-600">
+                <label for="upload-image" className='hover:bg-accent rounded-full p-2 cursor-pointer'>
+                    <MdPhotoCamera size={28} />
+                </label>
 
+                <p className="text-md font-bold">Add Image</p>
+            </div>
+
+            <input type="file" id="upload-image" className="hidden" onChange={handleFile} name="profileImg" />
+            
         </div>
 
         {
             profileImg !== '' &&
             <div>
-                <img src={profileImg} className="max-h-[300px] w-[200px] object-cover object-center rounded-[2rem]" alt="" />
+                <img src={URL.createObjectURL(profileImg)} className="max-h-[300px] w-[200px] object-cover object-center rounded-[2rem]" alt="" />
             </div>
         }
 

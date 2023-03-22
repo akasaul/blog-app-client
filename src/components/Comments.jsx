@@ -51,8 +51,11 @@ function Comments({post}) {
 
             <div className='flex gap-2'>
               <button type='submit' className='bg-textHover p-2 rounded-lg text-white'>Submit</button>
-              <button type='button' className='bg-white p-2 rounded-lg text-textHover border border-textHover'
-              onClick={() => setComment('')}>Cancel</button>
+              {
+                comment.length > 0 &&
+                <button type='button' className='bg-white p-2 rounded-lg text-textHover border border-textHover'
+                onClick={() => setComment('')}>Cancel</button>
+              }
             </div>
 
         </form>
@@ -62,7 +65,7 @@ function Comments({post}) {
         <div>
           {
             post?.comments?.map(comment => (
-              <Comment key={comment.id} comment={comment} />              
+              <Comment key={comment.id} id={user.id} comment={comment} />              
               )
             )
           }

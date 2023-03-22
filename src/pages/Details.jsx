@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { getPost } from '../app/features/post/postSlice';
 import AuthorInfo from '../components/AuthorInfo'
 import Content from '../components/Content'
-import { MdDelete, MdOutlineBookmarkBorder, MdOutlineComment, MdOutlineDelete, MdOutlineEdit, MdOutlineFavoriteBorder, MdOutlineMoreHoriz, MdReadMore } from 'react-icons/md'
+import { MdOutlineAddReaction, MdOutlineBookmarkBorder, MdOutlineComment, MdOutlineDelete, MdOutlineEdit, MdOutlineMoreHoriz } from 'react-icons/md'
 import Spinner from '../components/spinner/Spinner';
 import Comments from '../components/Comments';
 import DeleteModal from '../components/DeleteModal';
+import { postReaction } from '../app/features/reaction/reactionSlice';
+import useAuthStatus from '../hooks/useAuthStatus';
+import LoginModal from '../components/LoginModal';
 
 function Details() {
+
+  const {isLoggedIn} = useAuthStatus();
 
   // Getting url params
   const param = useParams();
@@ -18,10 +23,72 @@ function Details() {
   // Getting Post with its states 
   const {post, isLoading, isSuccess, isFailed} = useSelector(state => state.post);
 
+  
+  const {reaction, isLoading: reactionLoading, isSuccess: reactionSuccess} = useSelector(state => state.reaction);
+
   const { user } =  useSelector(state => state.auth);
+  const navigate = useNavigate();
 
   // Setting modal states s
   const [showModal, setShowModal] = useState(false);
+  const [selectedReaction, setSelectedReaction] = useState();
+  const [rated, setRated] = useState();
+
+  // reaction states
+  const [hearts, setHearts] = useState(0);
+  const [unicorn, setUnicorn] = useState(0);
+  const [fire, setFire] = useState(0);
+  
+
+  // giving reaction
+
+  useEffect(() => {
+    if(selectedReaction) {
+      dispatch(postReaction({id: post?.id, type: selectedReaction}))
+    }
+
+  }, [selectedReaction]);
+
+  // Changing reaction states 
+  useEffect(() => {
+    if(reaction && reactionSuccess) {
+     
+      switch(reaction.type) {
+        case 'heart': 
+          setHearts(prev => prev + 1);
+          setFire(post?.reactions?.filter(reaction => reaction?.type === 'fire')?.length);
+
+          setUnicorn(post?.reactions?.filter(reaction => reaction?.type === 'unicorn')?.length);
+          break;
+
+        case 'unicorn': 
+          setUnicorn(prev => prev + 1);
+          setHearts(post?.reactions?.filter(reaction => reaction?.type === 'heart')?.length);
+          setFire(post?.reactions?.filter(reaction => reaction?.type === 'fire')?.length);
+          break;
+          
+        case 'fire': 
+          setFire(prev => prev + 1);
+          setHearts(post?.reactions?.filter(reaction => reaction?.type === 'heart')?.length);
+    
+          setUnicorn(post?.reactions?.filter(reaction => reaction?.type === 'unicorn')?.length);
+          break;
+        }
+    }
+  }, [reactionSuccess])
+  
+
+  // setting reactiion states at the begining
+  useEffect(() => {
+    if(isSuccess && post) {
+      setHearts(post?.reactions?.filter(reaction => reaction?.type === 'heart')?.length);
+
+      setFire(post?.reactions?.filter(reaction => reaction?.type === 'fire')?.length);
+
+      setUnicorn(post?.reactions?.filter(reaction => reaction?.type === 'unicorn')?.length);
+    }
+
+  }, [isSuccess])
 
   useEffect(() => {
     const id = parseInt(param.id);
@@ -36,8 +103,16 @@ function Details() {
     setShowModal(true);
   };
 
+  const handleReaction = (reaction) => {
+    if(isLoading) {
+      return <LoginModal />
+    }
+    setSelectedReaction(reaction);
+    console.log(reaction);
+  }
+
   return (
-    <section className='flex border items-start max-w-[1300px] mt-3 gap-4 mx-auto'>
+    <section className='flex items-start max-w-[1300px] mt-3 gap-4 mx-auto'>
 
       {
         showModal &&
@@ -47,10 +122,34 @@ function Details() {
       <div className='min-w-[100px] border fixed md:static bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t
       md:border-none'>
 
-        <span className='flex flex-col items-center'>
-          <button><MdOutlineFavoriteBorder size={24} className="hover:text-red-500"/> </button>
-          <p className='text-sm text-gray-700 hidden sm:block'>114</p>
-        </span>
+        <div className='flex add-reaction flex-col items-center relative'>
+          <button><MdOutlineAddReaction size={24} className="hover:text-blue-500"/> </button>
+          <p className='text-sm text-gray-700 hidden sm:block'>{
+          post?.reactions?.length}</p>
+         
+          <div className='absolute bg-white left-[30px] top-[-20px] md:top-0  w-[170px] px-4 justify-between flex items-center p-2 border gap-5 z-50 rounded-lg reactions'>
+            <button onClick={() => handleReaction('heart')} className="text-[20px] flex flex-col items-center hover:scale-110">
+              💖
+              <span className='text-sm'>{hearts}</span>
+            </button>
+
+            <button onClick={() => handleReaction('unicorn')} className="text-[20px] flex flex-col items-center hover:scale-110">
+                ⭐
+              <span className='text-sm'>
+              {unicorn}
+              </span>
+            </button>
+
+            <button onClick={() => handleReaction('fire')} className="text-[20px] flex flex-col items-center hover:scale-110">
+                🔥
+              <span className='text-sm'>
+              {fire}
+              </span>
+            </button>
+
+          </div>
+        
+        </div>
 
         <span className='flex flex-col items-center'>
           <button><MdOutlineComment size={24} className="hover:text-yellow-500"/> </button>

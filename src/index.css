@@ -16,4 +16,11 @@ button:disabled:hover {
     background: white;
     color: red;
 }
+
+.reactions {
+    display: none;
+}
   
+.add-reaction:focus-within > .reactions {
+    display: flex;
+}

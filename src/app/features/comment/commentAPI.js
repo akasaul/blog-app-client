@@ -13,20 +13,16 @@ const postComment = async (formData, token) => {
   return res.data;
 }
 
+const deleteComment = async (id, token) => {
 
-// const getPosts = async () => {
-//   const res = await axios.get(API_URL);
+  const res = await axios.delete(`${API_URL}/${id}`, {
+    headers: {
+        'token': `Bearer ${token}`
+    }
+  });
   
-//   return res.data;
-// }
+  return res.data;
+}
 
 
-// const getPost = async (id) => {
-//   const res = await axios.get(`${API_URL}/${id}`);
-  
-//   return res.data;
-// }
-
-
-
-export default {postComment}
+export default {postComment, deleteComment}

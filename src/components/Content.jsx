@@ -10,7 +10,7 @@ function Content({post}) {
       <div className='flex gap-2 text-gray-700 mb-3'>
         {
             post?.tags?.split(',')?.map(tag => 
-              <p className='p-1 px-3 text-sm'>#{tag} 
+              <p key={Date.now()} className='p-1 px-3 text-sm'>#{tag} 
               </p>  
             )
         }

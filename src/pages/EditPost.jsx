@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaHeading } from 'react-icons/fa'
-import { MdClose, MdCode, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdLink, MdList, MdListAlt, MdOutlineBreakfastDining, MdOutlineInsertPageBreak, MdViewList } from 'react-icons/md'
+import { MdClose, MdCode, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdLink, MdList, MdListAlt, MdOutlineBreakfastDining, MdOutlineInsertPageBreak, MdPhotoCamera, MdViewList } from 'react-icons/md'
 import { setInputPos, setInputSelection } from '../utils/cursorPos';
 import {tools, mapTools} from '../utils/tools';
 import { tags } from '../utils/tags';
@@ -143,7 +143,6 @@ function EditPost() {
     dispatch(updatePost({formData, id: params.get('id')}));
   }
 
-
   return (
     <div>
       <form className='bg-white flex flex-col gap-2 rounded-lg max-w-[600px] mx-auto' onSubmit={handleSubmit}>
@@ -153,7 +152,10 @@ function EditPost() {
             <div className='p-5 flex flex-col gap-2'>
 
               <h1 className='text-md font-bold '>Cover Image</h1>
-              <input type="file" name="coverImg" onChange={e => setImage(e.target.files[0])}/>
+              <label for="upload-image" className='hover:bg-accent rounded-full p-2 self-start'>
+                  <MdPhotoCamera size={28} />
+              </label>
+              <input type="file" id="upload-image" name="coverImg" onChange={e => setImage(e.target.files[0])}/>
               {
                 image ?
                 <img className='max-h-[200px] w-full object-cover object-top' src={image && URL.createObjectURL(image)} alt="" /> : 

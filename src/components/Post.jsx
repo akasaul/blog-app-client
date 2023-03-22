@@ -15,6 +15,8 @@ const Post = ({post, setShowModal}) => {
     }
   }
 
+  const date = new Date(post?.createdAt).toDateString().split(' ');
+
 
   return (
     <div className='border rounded-md p-4 my-2 bg-white'>
@@ -31,7 +33,7 @@ const Post = ({post, setShowModal}) => {
        
         <div>
           <p className='text-sm'>{post?.user?.username }</p>
-          <p className='text-xs'>Mar 19</p>
+          <p className='text-xs'>{`${date[1]} ${date[2]}`}</p>
         </div>
 
         <div>
@@ -93,7 +95,7 @@ const Post = ({post, setShowModal}) => {
               {post?.content < 1 ? parseInt(post?.content * 60 ) + ' second read' : 
               parseInt(post?.content) +  " minute read" 
                } 
-              <MdBookmarkBorder size={24} />
+                <MdBookmarkBorder size={24} />
             </span>
 
           </div>
