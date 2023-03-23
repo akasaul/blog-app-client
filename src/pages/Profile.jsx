@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Menu from '../components/Menu'
 import { getMe } from '../app/features/user/userSlice'
 import Spinner from '../components/spinner/Spinner'
-import { MdCake, MdComment, MdOutlineComment, MdPostAdd, MdTag } from 'react-icons/md'
+import { MdCake, MdComment, MdOutlineComment, MdPodcasts, MdPostAdd, MdTag } from 'react-icons/md'
+import Post from '../components/Post';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,14 @@ const Profile = () => {
 
         <section className='p-3 bg-white border relative rounded-lg flex flex-col md:items-center'>
 
-          <img className='h-[60px] border-accent w-[60px] z-30 md:h-[100px] object-cover md:w-[100px] -mt-10 top-[-20px] rounded-full' src={`http://localhost:5000/${user?.profileImg}`} alt="" />
+          {
+            user?.profileImg  ? 
+            <img className='h-[60px] w-[60px] z-30 md:h-[100px] object-cover md:w-[100px] -mt-10 top-[-20px] rounded-full' src={`http://localhost:5000/${user?.profileImg}`} alt="" /> : 
+            <div  className="hover:shadow-md grid 
+            h-[60px] w-[60px] z-30 md:h-[100px] object-cover md:w-[100px] -mt-10 top-[-20px] rounded-full md:text-lg font-bold
+            place-content-center bg-blue-400 px-2 py-2 sm:h-[40px] sm:w-[40px] ">{user?.username.slice(0, 1)}</div>
+            
+          }
 
 
           <div className='mt-5 flex w-full'>
@@ -42,8 +50,8 @@ const Profile = () => {
 
           <div className='flex text-sm md:text-[15px] text-gray-600 gap-2 items-center my-5'>
             <MdCake size={22} />
-            Joined on Dec 11 2022
-            {date[1] + ' ' + date[3]}
+            Joined on 
+            {` ${date[1]} ${date[2]} ${date[3]}`}
           </div>
 
         </section>
@@ -58,6 +66,19 @@ const Profile = () => {
           <p className='flex items-center text-gray-600  w-full text-[16px] gap-3'> <MdTag size={24} /> 0 tags published</p>
 
         </section>
+
+
+        {
+          user?.posts?.length > 0 &&
+          <section className='bg-white p-3 border rounded-lg'>
+            <h1 className='font-bold'>Posts</h1>
+            {
+              user?.posts?.map(post => (
+                <Post post={post} profile={true}/>
+              ))
+            }
+          </section>
+        }
 
       
     

@@ -24,3 +24,13 @@ button:disabled:hover {
 .add-reaction:focus-within > .reactions {
     display: flex;
 }
+
+
+.profile-details {
+    display: none;
+}
+
+.avatar:focus-within > .profile-details {
+    transition: all ease-in-out 1000;
+    display: block;
+}
