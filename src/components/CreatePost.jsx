@@ -107,7 +107,7 @@ function CreatePost() {
         navigate('/');
     }
 
-}, [isFailed, isSuccess])  
+}, [isFailed, isSuccess, post])  
 
 
   // Setting Tool 
@@ -158,7 +158,7 @@ function CreatePost() {
 
   return (
     <div>
-      <form className='bg-white flex flex-col gap-2 rounded-lg max-w-[600px] mx-auto' onSubmit={handleSubmit}>
+      <form className='bg-white mt-5 flex flex-col gap-2 rounded-lg max-w-[600px] mx-auto' onSubmit={handleSubmit}>
 
         <section className='border'>
 

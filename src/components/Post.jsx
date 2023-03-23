@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { MdBookmarkBorder, MdComment, MdFavorite, MdOutlineComment, MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md'
 import useAuthStatus from '../hooks/useAuthStatus'
 
@@ -8,6 +8,7 @@ import useAuthStatus from '../hooks/useAuthStatus'
 const Post = ({post, setShowModal, profile}) => {
 
   const { isLoggedIn } = useAuthStatus();
+  const navigate = useNavigate();
 
   const handleLike = () => {
     if(!isLoggedIn) { 
@@ -25,10 +26,10 @@ const Post = ({post, setShowModal, profile}) => {
         {
           post?.user?.profileImg  ?
           !profile &&
-          <img className='max-h-[40px] w-[40px] object-contain rounded-full' src={`http://localhost:5000/${post?.user?.profileImg}`} alt="" /> : 
+          <img onClick={() => navigate(`profile/${post?.user?.id}`)} className='max-h-[40px] w-[40px] object-contain rounded-full cursor-pointer' src={`http://localhost:5000/${post?.user?.profileImg}`} alt="" /> : 
           !profile &&
-          <span className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
-          rounded-full from-slate-300 to-green-500'>{post?.user?.username?.slice(0, 1)}</span>
+          <span onClick={() => navigate(`profile/${post?.user?.id}`)} className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
+          rounded-full cursor-pointer from-slate-300 to-green-500'>{post?.user?.username?.slice(0, 1)}</span>
         }
        
        <div className='flex-1'>
@@ -95,7 +96,6 @@ const Post = ({post, setShowModal, profile}) => {
                 </Link>
 
               </div>
-
 
               <span className='flex items-center gap-3 text-sm text-gray-700'>
                 {post?.content?.length / 60 < 1 ? parseInt(post?.content?.length / 60 * 100) + ' second read' : 

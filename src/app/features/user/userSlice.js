@@ -9,26 +9,6 @@ const initialState = {
     errors: null
 }
 
-
-// export const signUp = createAsyncThunk(
-//     'user/signup', 
-//     async (formData, thunkAPI) => {
-//         try {
-//             const res = await axios.post(API_URL, formData, {
-//                 headers: {
-//                     "Content-Type": "multipart/form-data"
-//                 }
-//             });
-
-//             return res.data;
-
-//         } catch(err) {
-//             const message = err.response.data.message;
-//             return thunkAPI.rejectWithValue(message);
-//         }
-//     }
-// )
-
 export const addUserDetails = createAsyncThunk(
     'user/addUserDetails', 
     async (formData, thunkAPI) => {
@@ -58,6 +38,20 @@ export const getMe = createAsyncThunk(
     }
 )
 
+export const getUser = createAsyncThunk(
+    'user/getUser', 
+    async (id, thunkAPI) => {
+        try {
+            const res = await userAPI.getUser(id, thunkAPI.getState().auth.user.token);
+            return res.data;
+
+        } catch(err) {
+            const message = err.response.data.message;
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+)
+
 
 const userSlice = createSlice({
     name: 'user',
@@ -65,21 +59,6 @@ const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            // .addCase(signUp.pending, (state, action) => {
-            //     state.isLoading = true;
-            // }) 
-            // .addCase(signUp.rejected, (state, action) => {
-            //     state.isLoading = false;
-            //     state.isSuccess = false;
-            //     state.isFailed = true;
-            //     state.errors = action.payload;
-            // }) 
-            // .addCase(signUp.fulfilled, (state, action) => {
-            //     state.user = action.payload;
-            //     state.isLoading = false;
-            //     state.isFailed = false;
-            //     state.isSuccess = true;
-            // }) 
 
         // add user details 
             .addCase(addUserDetails.pending, (state, action) => {
@@ -103,7 +82,7 @@ const userSlice = createSlice({
             }) 
 
 
-              // add user details 
+              // get Profile 
               .addCase(getMe.pending, (state, action) => {
                 state.isLoading = true;
                 state.isSuccess = false;
@@ -122,6 +101,27 @@ const userSlice = createSlice({
                 state.isSuccess = true;
                 state.errors = null;
             }) 
+
+            // get User 
+            .addCase(getUser.pending, (state, action) => {
+                state.isLoading = true;
+                state.isSuccess = false;
+                state.isFailed = false;
+            }) 
+            .addCase(getUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isFailed = true;
+                state.errors = action.payload;
+            }) 
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.isLoading = false;
+                state.isFailed = false;
+                state.isSuccess = true;
+                state.errors = null;
+            }) 
+            
     }
 })
 

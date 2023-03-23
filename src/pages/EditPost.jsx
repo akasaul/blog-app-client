@@ -7,11 +7,12 @@ import { tags } from '../utils/tags';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../app/features/post/postSlice';
 import toast from 'react-hot-toast';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import {  useNavigate, useSearchParams } from 'react-router-dom';
 import { reset } from '../app/features/post/postSlice';
 
 function EditPost() {
   const [params] = useSearchParams();
+  const navigate = useNavigate();
 
   // States
   const [content, setContent] = useState(params.get('content')?.replaceAll('@', '#'));
@@ -30,6 +31,9 @@ function EditPost() {
 
   // Reset All states 
   useEffect(() => {
+    if(!params.get('content')) {
+      navigate('/');
+    }
     dispatch(reset());
   }, [])
 
@@ -155,7 +159,7 @@ function EditPost() {
               <label for="upload-image" className='hover:bg-accent rounded-full p-2 self-start'>
                   <MdPhotoCamera size={28} />
               </label>
-              <input type="file" id="upload-image" name="coverImg" onChange={e => setImage(e.target.files[0])}/>
+              <input className='hidden' type="file" id="upload-image" name="coverImg" onChange={e => setImage(e.target.files[0])}/>
               {
                 image ?
                 <img className='max-h-[200px] w-full object-cover object-top' src={image && URL.createObjectURL(image)} alt="" /> : 

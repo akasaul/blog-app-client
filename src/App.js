@@ -10,6 +10,7 @@ import EditPost from './pages/EditPost'
 import AddDetails from './pages/AddDetails';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/Profile';
+import AntiPrivateRoute from './components/AntiPrivateRoute';
 
 
 function App() {
@@ -18,29 +19,41 @@ function App() {
     <Nav /> 
 
     <Routes>
+
         <Route path='/' element={<Home />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/login' element={<Login />} />
+
+        <Route path='/signup'element={<AntiPrivateRoute />} >
+          <Route path='/signup' element={<Signup />} />
+        </Route>
+
+
+        <Route path='/login' element={<AntiPrivateRoute />} >
+          <Route path='/login' element={<Login />} />
+        </Route>
+
+        <Route path='/signup/add-details' element={<PrivateRoute />} >
+          <Route path='/signup/add-details' element={<AddDetails />} />
+        </Route>
+        
         <Route path='/posts/:id' element={<Details />} />
        
-        <Route>
-          <Route path='/new-product' element={<PrivateRoute />} />
+        <Route path='/new' element={<PrivateRoute />} >
           <Route path='/new' element={<NewPost />} />
         </Route>
        
-        <Route path='/edit' element={<EditPost />} />
-       
-        <Route>
-          <Route path='/add-details' element={<PrivateRoute />} />
-          <Route path='/signup/add-details' element={<AddDetails />} />
+
+        <Route path='/edit' element={<PrivateRoute />} >
+          <Route path='/edit' element={<EditPost />} />
         </Route>
 
-        <Route>
-          <Route path='/add-details' element={<PrivateRoute />} />
+        <Route path='/profile' element={<PrivateRoute />} >
           <Route path='/profile' element={<Profile />} />
         </Route>
 
 
+        <Route path='/profile/:id' element={<PrivateRoute />} >
+          <Route path='/profile/:id' element={<NewPost />} />
+        </Route>
 
     </Routes>
     <Toaster />

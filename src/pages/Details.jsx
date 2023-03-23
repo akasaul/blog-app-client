@@ -203,7 +203,7 @@ function Details() {
         
         <div className='p-6 flex gap-5 flex-col'>
           <div className='max-w-[90%] mx-auto  w-full'>
-            <AuthorInfo user={post?.user} />
+            <AuthorInfo user={post?.user} postedAt={post?.createdAt} />
             <Content post={post} />
           </div>
         </div>
@@ -227,7 +227,7 @@ function Details() {
           <h2 className='text-md font-bold'>{post?.user?.name}</h2>
         </div>
     
-        <button className='bg-[#313CB9] w-full p-2 text-white rounded-lg'>Follow</button>
+        <Link to={`/profile/${user?.id}`} className='bg-[#313CB9] w-full text-center p-2 text-white rounded-lg'>Go to Profile</Link>
 
       <p className='text-gray-600'>
           {post?.user?.bio}

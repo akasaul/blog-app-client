@@ -244,7 +244,7 @@ function Signup() {
 
         
         </form>
-       
+{/*        
         <div className="grid grid-cols-1 max-w-[700px] mx-auto gap-5 sm:grid-cols-2">
             
             <button onClick={() => handleAuth('google')} className="flex hover:scale-105 transition-all duration-150 border items-center gap-3 justify-center shadow-md p-2">
@@ -257,7 +257,7 @@ function Signup() {
                 <FaGithub size={24} />
             </button> 
         
-        </div>
+        </div> */}
 
     </section>
   )

@@ -9,7 +9,7 @@ function Avatar({imgUrl, username, id}) {
 
   const handleSignOut = (e) => {
     dispatch(signOut());
-    navigate(0);
+    window.location.href = '/login';
   }
  
   return (

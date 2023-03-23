@@ -12,7 +12,6 @@ const addUserDetails = async (token, id, formData) => {
 }
 
 const getMe = async (token) => {
-  console.log(token);
   return await axios.get(API_URL + '/getme', {
     headers: {
       'token': `Bearer ${token}`
@@ -20,5 +19,12 @@ const getMe = async (token) => {
   })
 }
 
+const getUser = async (id, token) => {
+  return await axios.get(`${API_URL}/${id}`, {
+    headers: {
+      'token': `Bearer ${token}`
+    }
+  })
+}
 
-export default {addUserDetails, getMe}
+export default {addUserDetails, getMe, getUser}

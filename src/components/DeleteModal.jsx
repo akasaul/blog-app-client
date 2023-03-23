@@ -32,7 +32,7 @@ function DeleteModal({setShowModal, header, id}) {
 
   return (
     <>
-      <div className='bg-gray-800 opacity-10 absolute top-0 h-[500vh] right-0 left-0
+      <div className='bg-gray-800 opacity-10 fixed top-0 bottom right-0 left-0
       '>
         </div>
 
@@ -46,7 +46,7 @@ function DeleteModal({setShowModal, header, id}) {
 
           <div className='grid place-content-center'>
             <img src="/removed.png" className='sm:max-h-[200px] max-h-[100px] mx-auto' alt="sign up first" />
-            <h2 className='text-center font-sans text-lg text-gray-700 font-bold'>Delete "{header.slice(0, 10)}"..?</h2>
+            <h2 className='text-center font-sans text-lg text-gray-700 font-bold'>Delete "{header?.slice(0, 10)}"..?</h2>
             
             <div className='grid place-content-center gap-2'>
 

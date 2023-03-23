@@ -11,6 +11,9 @@ function Comment({comment, id}) {
   const handleDelete = () => {
     dispatch(deleteComment(comment?.id));
   }
+
+  const date = new Date(comment?.createdAt).toDateString().split(' ');
+
   
   return (
     <div className='flex gap-4'>
@@ -28,7 +31,7 @@ function Comment({comment, id}) {
           <div className='flex items-center'>
             <p>{comment.user.name}</p>
             <BsDot />
-            <p className='text-xs p-0'>Mar 20</p>
+            <p className='text-xs p-0'>{`${date[1]} ${date[2]}`}</p>
           </div>
           <p>
             {comment?.content}

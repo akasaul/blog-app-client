@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function LoginModal({setShowModal, message}) {
   return (
     <>
-      <div className='bg-gray-800 opacity-10 absolute top-0 h-[500vh] right-0 left-0
+      <div className='bg-gray-800 opacity-10 fixed top-0 bottom-0 right-0 left-0
       '>
         </div>
         <div className='absolute z-40 max-w-[700px]  mx-auto rounded-lg border p-5 bg-white opacity-100 top-[50px] left-[50px] right-[50px] bottom-[50px]'>
@@ -34,8 +34,6 @@ function LoginModal({setShowModal, message}) {
                 Sign in
               </Link>
 
-
-            
             </div>
           
           </div>

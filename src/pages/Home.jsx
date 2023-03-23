@@ -5,7 +5,7 @@ import Main from '../components/Main';
 
 function Home() {
   return (
-    <div className='max-w-[1200px] gap-5 flex justify-between mt-5 mx-auto'>
+    <div className='max-w-[1200px] gap-5 flex items-start justify-between mt-5 mx-auto'>
       <Menu />
       <Main />
       <Listing />

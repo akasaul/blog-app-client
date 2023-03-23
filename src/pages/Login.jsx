@@ -1,13 +1,16 @@
 import Input from "../components/Input"
-import { MdLogin, MdSend } from 'react-icons/md';
-import { useState } from "react";
-import { FaGithub } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { MdLogin } from 'react-icons/md';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../app/features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 function Login() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { user, isLoading, isSuccess, isFailed, errors } = useSelector(state => state.auth);
 
     const [formData, setFormData] = useState({
         username: '', 
@@ -27,6 +30,22 @@ function Login() {
             [e.target.name]: e.target.value
         })
     }
+
+    useEffect(() => {
+        if(isSuccess && !isLoading) {
+            toast.success('Successully Logged in');
+            navigate('/');
+        }
+
+        if(isFailed) {
+            errors instanceof Array ?
+            errors.map(error => {
+                toast.error(error);
+            }) : 
+            toast.error(errors);
+        }
+
+    }, [isLoading, isSuccess, isFailed, errors]);
     
   return (
     <section className="mt-4">
@@ -42,21 +61,6 @@ function Login() {
            
             <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 
             justify-center' type="submit">Login <MdLogin /></button>
-
-             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              
-                <Link to='/auth/google' className="flex hover:scale-105 transition-all duration-150 border items-center gap-3 justify-center shadow-md p-2">
-                    Signin With Google
-                    <img src="/google.jpg" className="max-h-[32px]" alt="" />
-                </Link>
-
-                <Link to='/auth/google' className="flex hover:scale-105 transition-all duration-150 rounded-md hover:bg-black gap-3 hover:text-white text-black border items-center justify-center shadow-md p-2">
-                    Signin With Github 
-                    <FaGithub size={24} />
-                </Link> 
-           
-            </div>
-
 
         </form>
 
