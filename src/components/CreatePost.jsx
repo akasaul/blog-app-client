@@ -28,8 +28,9 @@ function CreatePost() {
   // React router dom
   const navigate = useNavigate();
 
-
+  // Ref for input fields
   const textRef = useRef();
+  const tagRef = useRef();
 
   // Reset All states 
   useEffect(() => {
@@ -95,13 +96,15 @@ function CreatePost() {
         });
     }
 
-    if(isSuccess) {
+    if(isSuccess && post) {
         toast.success('Successfully Posted', {
             style: {
                 minWidth: '200px',
                 width: '80%', 
             }
         });
+
+        navigate('/');
     }
 
 }, [isFailed, isSuccess])  
@@ -130,8 +133,12 @@ function CreatePost() {
   const handleTagSubmit = (e) => {
     if(e.key == 'Enter') {
       e.preventDefault();
-      console.log(e.target.value);
-      setSelectedTags([...selectedTags, e.target.value])
+      if(selectedTags.includes(tagRef.current.value)) {
+        toast.error('a hashtag can only be used once');
+        return;
+      }
+      setSelectedTags([...selectedTags, tagRef.current.value])
+      tagRef.current.value = '';
     }
   }
   
@@ -158,7 +165,7 @@ function CreatePost() {
             <div className='p-5 flex flex-col gap-2'>
 
               <h1 className='text-md font-bold '>Cover Image</h1>
-              <label for="upload-image" className='hover:bg-accent rounded-full p-2 self-start'>
+              <label htmlFor="upload-image" className='hover:bg-accent rounded-full p-2 self-start'>
                   <MdPhotoCamera size={28} />
               </label>
               <input id="upload-image" type="file" className='hidden' name="coverImg" onChange={e => setImage(e.target.files[0])}/>
@@ -179,11 +186,24 @@ function CreatePost() {
                 }
                 
                 <div className='relative'>
-                  <input type="text" onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
+                  {
+                    selectedTags.length < 4 &&
+                    <input type="text" ref={tagRef} onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
+                  }
+
                   {
                     showResults &&
                       <ul className='absolute  bg-white
                       left-0 right-0'>
+                        <div className='flex justify-end px-2' onClick={() => setShowResults(false)}>
+                          
+                          { tagList.length > 0 &&
+                            <button onClick={() => setShowResults(false)}>
+                              <MdClose />
+                            </button>
+                          }
+
+                        </div>
                         {
                           tagList.map(tag =>
                             <li key={tag} onClick={() => handleSetTags(tag)} className='p-2 text-sm border-b cursor-pointer hover:bg-accent'>#{tag}</li>

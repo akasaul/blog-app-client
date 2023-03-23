@@ -31,13 +31,14 @@ function Details() {
 
   // Setting modal states s
   const [showModal, setShowModal] = useState(false);
+  const [showLogInModal, setShowLogInModal] = useState(false);
   const [selectedReaction, setSelectedReaction] = useState();
-  const [rated, setRated] = useState();
 
   // reaction states
   const [hearts, setHearts] = useState(0);
   const [unicorn, setUnicorn] = useState(0);
   const [fire, setFire] = useState(0);
+  const [count, setCount] = useState(0);
   
 
   // giving reaction
@@ -59,12 +60,17 @@ function Details() {
           setFire(post?.reactions?.filter(reaction => reaction?.type === 'fire')?.length);
 
           setUnicorn(post?.reactions?.filter(reaction => reaction?.type === 'unicorn')?.length);
+
+          setCount(post?.reactions?.length)
+
           break;
 
         case 'unicorn': 
           setUnicorn(prev => prev + 1);
           setHearts(post?.reactions?.filter(reaction => reaction?.type === 'heart')?.length);
           setFire(post?.reactions?.filter(reaction => reaction?.type === 'fire')?.length);
+          setCount(post?.reactions?.length)
+
           break;
           
         case 'fire': 
@@ -72,6 +78,9 @@ function Details() {
           setHearts(post?.reactions?.filter(reaction => reaction?.type === 'heart')?.length);
     
           setUnicorn(post?.reactions?.filter(reaction => reaction?.type === 'unicorn')?.length);
+
+          setCount(post?.reactions?.length)
+
           break;
         }
     }
@@ -86,6 +95,8 @@ function Details() {
       setFire(post?.reactions?.filter(reaction => reaction?.type === 'fire')?.length);
 
       setUnicorn(post?.reactions?.filter(reaction => reaction?.type === 'unicorn')?.length);
+
+      setCount(post?.reactions?.length);
     }
 
   }, [isSuccess])
@@ -104,19 +115,24 @@ function Details() {
   };
 
   const handleReaction = (reaction) => {
-    if(isLoading) {
-      return <LoginModal />
+    if(!isLoggedIn) {
+      setShowLogInModal(true);
     }
     setSelectedReaction(reaction);
-    console.log(reaction);
   }
+
+  const date = new Date(post?.user?.createdAt).toDateString().split(' ');
 
   return (
     <section className='flex items-start max-w-[1300px] mt-3 gap-4 mx-auto'>
-
       {
         showModal &&
           <DeleteModal header={post?.header} setShowModal={setShowModal} id={post?.id} />
+      }
+
+      {
+        showLogInModal &&
+          <LoginModal message={'Login To Give Reaction'} setShowModal={setShowLogInModal} />
       }
 
       <div className='min-w-[100px] border fixed md:static bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t
@@ -125,7 +141,7 @@ function Details() {
         <div className='flex add-reaction flex-col items-center relative'>
           <button><MdOutlineAddReaction size={24} className="hover:text-blue-500"/> </button>
           <p className='text-sm text-gray-700 hidden sm:block'>{
-          post?.reactions?.length}</p>
+          count}</p>
          
           <div className='absolute bg-white left-[30px] top-[-20px] md:top-0  w-[170px] px-4 justify-between flex items-center p-2 border gap-5 z-50 rounded-lg reactions'>
             <button onClick={() => handleReaction('heart')} className="text-[20px] flex flex-col items-center hover:scale-110">
@@ -153,7 +169,7 @@ function Details() {
 
         <span className='flex flex-col items-center'>
           <button><MdOutlineComment size={24} className="hover:text-yellow-500"/> </button>
-          <p className='text-sm text-gray-700 hidden sm:block'>60</p>
+          <p className='text-sm text-gray-700 hidden sm:block'>{post?.comments?.length}</p>
         </span>
 
         <span className='flex flex-col items-center'>
@@ -202,49 +218,66 @@ function Details() {
       <div className='bg-white flex flex-col gap-4  p-4 border rounded-lg '>
       
         <div className='flex items-end gap-2 mt-2'>
-          <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/tommy-shelby-cillian-murphy-peaky-blinders-1569234705.jpg?crop=0.727xw:0.484xh;0.273xw,0.0232xh&resize=768:*" className='h-[50px] w-[50px] rounded-full' alt="" />
-          <h2 className='text-md font-bold'>Tapjyoti Bose</h2>
+            {
+            post?.user?.profileImg ? 
+            <img className='max-h-[40px] w-[40px] object-contain rounded-full' src={`http://localhost:5000/${post?.user?.profileImg}`} alt="" /> : 
+              <span className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
+              rounded-full from-slate-300 to-green-500'>{post?.user?.name?.slice(0, 1)}</span>
+          }
+          <h2 className='text-md font-bold'>{post?.user?.name}</h2>
         </div>
     
         <button className='bg-[#313CB9] w-full p-2 text-white rounded-lg'>Follow</button>
 
       <p className='text-gray-600'>
-          Top Rated Freelancer || Blogger || Cross-Platform App Developer || Web Developer || Open Source Contributor
+          {post?.user?.bio}
       </p>
 
       <div className='text-gray-600'>
         <p className='font-[600]'>Joined</p>
-        <p>Dec 3, 2020</p>
+        <p>{date[1] + ' ' + date[2] + ', ' + date[3]}</p>
       </div>
 
       </div>
 
-      <div className="bg-white border rounded-lg p-4">
-          <h2 className='text-md font-bold mb-5'>More from 
-          <span className='text-textHover mx-2'>Tyapajyoti Bose</span></h2>
+      { 
+        post?.user?.posts.length > 0 &&
+        
+        <div className="bg-white border rounded-lg p-4">
+            <h2 className='text-md font-bold mb-5'>More from 
+            <span className='text-textHover mx-2'>{post?.user?.name}</span></h2>
 
-        <div className='flex flex-col gap-5'>
+          <div className='flex flex-col gap-5'>
 
-          <section className=' flex flex-col text-gray-600'>
-            <Link to={'/id '} className='mb-1 hover:text-textHover'>7 Libraries You Should Know as a React Developer</Link>
-            <div className='flex gap-2 '>
-              <span>#javascript</span>
-              <span>#react</span>
-            </div>
-          </section>
+            {
+              post?.user?.posts?.map((curPost, index) => (
+                index < 4 && curPost?.id !== post?.id &&
 
-          <section className=' flex flex-col text-gray-600'>
-            <Link to={'/id '} className='mb-1 hover:text-textHover'>7 Libraries You Should Know as a React Developer</Link>
-            <div className='flex gap-2 '>
-              <span>#javascript</span>
-              <span>#react</span>
-            </div>
-          </section>
+                <section className=' flex flex-col text-gray-600'>
+                
+                  <a href={`/posts/${curPost?.id}`} className='mb-1 hover:text-textHover'>{curPost?.header}</a>
+                
+                  <div className='flex gap-2 '>
+                    <span>
+                      {
+                        curPost?.tags?.split(',')?.map(tag => 
+                          <p key={tag + Date.now()} className='p-1 px-3 text-sm'>#{tag} 
+                          </p>  
+                        )
+                      }
+                    </span>
+                  </div>
+                </section>
 
+              ))
+            }
+
+          </div>
+          
         </div>
 
-        
-      </div>
+      }
+
 
     </div>
       

@@ -17,7 +17,7 @@ function Comment({comment, id}) {
 
     {
           comment?.user?.profileImg ?
-          <img className='max-h-[20px] w-[30px] object-contain rounded-full' src={`http://localhost:5000/${comment?.user?.profileImg}`} alt="" /> : 
+          <img className='h-[30px] w-[30px] object-contain rounded-full' src={`http://localhost:5000/${comment?.user?.profileImg}`} alt="" /> : 
           <span className='bg-gradient-to-r grid place-content-center font-bold border w-[30px] h-[30px]
           rounded-full from-slate-300 to-green-500'>{comment?.user?.username?.slice(0, 1)}</span>
         }

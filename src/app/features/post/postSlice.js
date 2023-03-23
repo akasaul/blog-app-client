@@ -83,6 +83,7 @@ const postSlice = createSlice({
     initialState,
     reducers: {
         reset(state) {
+            state.post = null;
             state.isLoading = false;
             state.isFailed = false;
             state.isSuccess = false;

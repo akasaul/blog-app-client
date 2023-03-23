@@ -34,7 +34,7 @@ function Signup() {
                     width: '80%', 
                 }
             });
-            navigate('/')
+            navigate('/signup/add-details')
         }
 
     }, [isFailed, isSuccess])

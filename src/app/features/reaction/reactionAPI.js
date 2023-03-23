@@ -13,16 +13,6 @@ const postReaction = async (formData, token) => {
   return res.data;
 }
 
-// const deleteComment = async (id, token) => {
-
-//   const res = await axios.delete(`${API_URL}/${id}`, {
-//     headers: {
-//         'token': `Bearer ${token}`
-//     }
-//   });
-  
-//   return res.data;
-// }
 
 
 export default {postReaction}

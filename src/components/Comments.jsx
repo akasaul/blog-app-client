@@ -31,8 +31,11 @@ function Comments({post}) {
     <section className='my-10 border w-full bg-accent' id='comments'>
       
       <div className='max-w-[90%] flex flex-col gap-5 mx-auto p-4'>
-
-        <h1 className='text-lg font-bold'>Top Comments (6)</h1>
+        {
+          post?.comments?.length ? 
+            <h1 className='text-lg font-bold text-gray-700'>Top Comments ({post?.comments?.length})</h1> :
+            <h1 className='text-lg font-bold text-gray-700'>Be the first to Comment</h1>
+        }
         
         <div className='flex gap-5 mb-5'>
 

@@ -7,6 +7,9 @@ import Details from './pages/Details';
 import NewPost from './pages/NewPost';
 import { Toaster } from 'react-hot-toast';
 import EditPost from './pages/EditPost'
+import AddDetails from './pages/AddDetails';
+import PrivateRoute from './components/PrivateRoute';
+import Profile from './pages/Profile';
 
 
 function App() {
@@ -19,8 +22,26 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path='/posts/:id' element={<Details />} />
-        <Route path='/new' element={<NewPost />} />
+       
+        <Route>
+          <Route path='/new-product' element={<PrivateRoute />} />
+          <Route path='/new' element={<NewPost />} />
+        </Route>
+       
         <Route path='/edit' element={<EditPost />} />
+       
+        <Route>
+          <Route path='/add-details' element={<PrivateRoute />} />
+          <Route path='/signup/add-details' element={<AddDetails />} />
+        </Route>
+
+        <Route>
+          <Route path='/add-details' element={<PrivateRoute />} />
+          <Route path='/profile' element={<Profile />} />
+        </Route>
+
+
+
     </Routes>
     <Toaster />
     </>

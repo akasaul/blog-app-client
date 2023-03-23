@@ -51,9 +51,9 @@ function Nav() {
               <Link to='/login' className='text-md md:flex gap-2 items-center px-3 py-1 hover:bg-blue-100 hover:text-textHover hover:underline hidden'>
                 Login
               </Link>: 
-              <Link to='/new' className='text-md md:flex text-textHover hidden gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover hover:text-primary hover:underline'>
+              <a href='/new' className='text-md md:flex text-textHover hidden gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover hover:text-primary hover:underline'>
                 Create Post
-              </Link>  
+              </a>  
 
             }
 
@@ -122,12 +122,10 @@ function Nav() {
                       </Link>
                       </>: 
 
-                      <Link to='/new' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
+                      <a href='/new' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
                        Create Post
-                     </Link>
+                     </a>
                     }
-
-
 
                   </div>
 

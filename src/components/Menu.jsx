@@ -41,9 +41,9 @@ function Menu() {
               </Link>
 
             </div> :
-            <Link to='/new' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
+            <a href='/new' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover w-full justify-center hover:text-primary hover:underline'>
               Create Post
-            </Link>
+            </a>
           }
 
 

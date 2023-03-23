@@ -50,11 +50,12 @@ const Post = ({post, setShowModal}) => {
 
           <div className='flex justify-between my-5'>
 
+            {/* Desktop View stats  */}
             <div className='hidden sm:flex items-center gap-5'>
               
               <button className='flex hover:text-textHover cursor-pointer text-sm items-center gap-4 text-gray-700' onClick={handleLike}>
                 <MdOutlineFavoriteBorder  size={18} />
-                66 reactions
+                {post?.reactions?.length} reactions
               </button>
 
               <Link to={`posts/${post?.id}/#comments`} className='flex text-sm items-center gap-4 text-gray-700 cursor-pointer'>
@@ -70,11 +71,12 @@ const Post = ({post, setShowModal}) => {
 
             </div>
 
+            {/* Mobile View Stats  */}
             <div className='flex sm:hidden items-center gap-5'>
               
               <button className='flex hover:text-textHover cursor-pointer text-sm items-center gap-4 text-gray-700' onClick={handleLike}>
                 <MdOutlineFavoriteBorder  size={18} />
-                66
+                {post?.reactions?.length}
               </button>
 
               <Link to={`posts/${post?.id}/#comments`} className='flex text-sm items-center gap-4 text-gray-700 cursor-pointer'>
@@ -92,13 +94,13 @@ const Post = ({post, setShowModal}) => {
 
 
             <span className='flex items-center gap-3 text-sm text-gray-700'>
-              {post?.content < 1 ? parseInt(post?.content * 60 ) + ' second read' : 
-              parseInt(post?.content) +  " minute read" 
+              {post?.content?.length / 60 < 1 ? parseInt(post?.content?.length / 60 * 100) + ' second read' : 
+              parseInt(post?.content?.length / 60) +  " minute read" 
                } 
                 <MdBookmarkBorder size={24} />
             </span>
 
-          </div>
+          </div>  
 
         </div>
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
-function LoginModal({setShowModal}) {
+function LoginModal({setShowModal, message}) {
   return (
     <>
       <div className='bg-gray-800 opacity-10 absolute top-0 h-[500vh] right-0 left-0
@@ -17,7 +17,9 @@ function LoginModal({setShowModal}) {
 
           <div className='grid place-content-center'>
             <img src="/signup.jpg" className='max-h-[250px] mx-auto' alt="sign up first" />
-            <h2 className='text-center font-sans text-lg text-gray-700 font-bold'>Login To Like This Post</h2>
+            <h2 className='text-center font-sans text-lg text-gray-700 font-bold'>{
+              message
+            }</h2>
             <div className='grid place-content-center gap-2'>
 
               <Link to={'/login'} className="hover:text-textHover text-gray-500">Already Have An Account?</Link>

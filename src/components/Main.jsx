@@ -25,7 +25,7 @@ function Main() {
     <div className='flex-1'>
       {
         showModal &&
-        <LoginModal setShowModal={setShowModal} />
+        <LoginModal message={'Login to Like this Post'} setShowModal={setShowModal} />
       }
 
 
