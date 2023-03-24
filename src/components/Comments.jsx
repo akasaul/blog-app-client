@@ -5,6 +5,7 @@ import { postComment } from '../app/features/comment/commentSlice';
 import { useNavigate } from 'react-router-dom';
 import useAuthStatus from '../hooks/useAuthStatus';
 import LoginModal from './LoginModal';
+import { API_URL } from '../utils/API_URI';
 
 function Comments({post}) {
   
@@ -55,7 +56,7 @@ function Comments({post}) {
 
         {
           user?.profileImg && isLoggedIn ?
-          <img className='max-h-[30px] w-[30px] object-contain rounded-full' src={`http://localhost:5000/${user?.profileImg}`} alt="" /> : 
+          <img className='max-h-[30px] w-[30px] object-contain rounded-full' src={`${API_URL}/${user?.profileImg}`} alt="" /> : 
           <span className='bg-gradient-to-r grid place-content-center font-bold border w-[30px] h-[30px]
           rounded-full from-slate-300 to-green-500'>{user?.username?.slice(0, 1)}</span>
         }
@@ -79,7 +80,7 @@ function Comments({post}) {
 
         </div>
 
-        <div>
+        <div className='flex  flex-col gap-5 ml-10'>
           {
             post?.comments?.map(comment => (
               <Comment key={comment.id} id={user?.id} comment={comment} />              

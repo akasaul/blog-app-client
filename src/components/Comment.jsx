@@ -3,6 +3,7 @@ import { MdClose, MdDelete, MdOutlineFavoriteBorder} from 'react-icons/md';
 import {BsDot } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment } from '../app/features/comment/commentSlice';
+import { API_URL } from '../utils/API_URI';
 
 function Comment({comment, id}) {
 
@@ -20,7 +21,7 @@ function Comment({comment, id}) {
 
     {
           comment?.user?.profileImg ?
-          <img className='h-[30px] w-[30px] object-contain rounded-full' src={`http://localhost:5000/${comment?.user?.profileImg}`} alt="" /> : 
+          <img className='h-[30px] w-[30px] object-contain rounded-full' src={`${API_URL}/${comment?.user?.profileImg}`} alt="" /> : 
           <span className='bg-gradient-to-r grid place-content-center font-bold border w-[30px] h-[30px]
           rounded-full from-slate-300 to-green-500'>{comment?.user?.username?.slice(0, 1)}</span>
         }
@@ -28,8 +29,8 @@ function Comment({comment, id}) {
       <div className='w-full relative'>
         <div className="border rounded-lg p-3 bg-white">
 
-          <div className='flex items-center'>
-            <p>{comment.user.name}</p>
+          <div className='flex capitalize  items-center'>
+            <p>{comment.user.name.toLowerCase()}</p>
             <BsDot />
             <p className='text-xs p-0'>{`${date[1]} ${date[2]}`}</p>
           </div>
@@ -46,11 +47,6 @@ function Comment({comment, id}) {
 
         </div>
     
-        <button className='p-1 my-2 px-3 hover:bg-textHover hover:text-white rounded-lg flex items-center gap-2'>
-          <MdOutlineFavoriteBorder size={22} />
-          7
-        </button>
-
       </div>
     
       

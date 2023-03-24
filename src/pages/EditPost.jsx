@@ -9,6 +9,7 @@ import { createPost, updatePost } from '../app/features/post/postSlice';
 import toast from 'react-hot-toast';
 import {  useNavigate, useSearchParams } from 'react-router-dom';
 import { reset } from '../app/features/post/postSlice';
+import { API_URL } from '../utils/API_URI';
 
 function EditPost() {
   const [params] = useSearchParams();
@@ -153,7 +154,7 @@ function EditPost() {
   }
 
   return (
-    <div>
+    <div className='mx-5'>
       <form className='bg-white flex flex-col gap-2 rounded-lg max-w-[600px] mx-auto' onSubmit={handleSubmit}>
 
         <section className='border'>
@@ -169,25 +170,25 @@ function EditPost() {
                 image ?
                 <img className='max-h-[200px] w-full object-cover object-top' src={image && URL.createObjectURL(image)} alt="" /> : 
                 params.get('imageUrl') &&
-                <img className='max-h-[200px] w-full object-cover object-top' src={`http://localhost:5000/${params.get('imageUrl')}`} alt="" />                
+                <img className='max-h-[200px] w-full object-cover object-top' src={`${API_URL}/${params.get('imageUrl')}`} alt="" />                
               }
              
               <input type="text" name="title" value={header} onChange={e => setHeader(e.target.value)} placeholder='New post title here...' className='p-2 text-[24px] outline-none font-bold' />
 
             <div className='flex gap-1'>
                 {
-                  selectedTags.length > 0 &&
-                    selectedTags.map(tag => 
+                  selectedTags?.length > 0 &&
+                    selectedTags?.map(tag => 
                       <button key={tag} type='button' className='text-gray-600 flex item-center gap-1 p-1 px-2 rounded-lg hover:bg-textPrimary hover:text-white border'>#{tag}
 
-                      <MdClose className='hover:scale-110' onClick={() => setSelectedTags(selectedTags.filter(currentTag => currentTag !== tag))} />
+                      <MdClose className='hover:scale-110' onClick={() => setSelectedTags(selectedTags?.filter(currentTag => currentTag !== tag))} />
                       </button>
                     )
                 }
                 
                 <div className='relative'>
                   {
-                    selectedTags.length < 4 &&
+                    selectedTags?.length < 4 &&
                     <input type="text" ref={tagRef} onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
                   }
 
@@ -219,44 +220,44 @@ function EditPost() {
             </div>
           
 
-            <div className='flex py-3 bg-accent px-4 gap-1'>
+            <div className='flex py-3 bg-accent px-4 sm:gap-1 gap-3'>
               
-              <button onClick={handleSetTool} name="bold" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="bold" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] w-[25px] h-[25px]'>
                 <MdFormatBold  size={32}/>
               </button>
 
-              <button onClick={handleSetTool} name="italic" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="italic" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] w-[25px] h-[25px]'>
                 <MdFormatItalic  size={32}/>
               </button>
 
-              <button onClick={handleSetTool} name="link" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="link" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] w-[25px] h-[25px]'>
                 <MdLink  size={32}/>
               </button>
 
-              <button onClick={handleSetTool} name="list" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="list" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] w-[25px] h-[25px]'>
                 <MdList  size={32}/>  
               </button>
 
-              <button onClick={handleSetTool} name="heading" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="heading" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] w-[25px] h-[25px]'>
                 <FaHeading size={21}/>  
               </button>
               
 
-              <button onClick={handleSetTool} name="underline" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="underline" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] w-[25px] h-[25px]'>
                 <MdFormatUnderlined size={28}/>  
               </button>
 
-              <button onClick={handleSetTool} name="break" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="break" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] w-[25px] h-[25px]'>
                 <MdOutlineInsertPageBreak size={22} />
               </button>
 
-              <button onClick={handleSetTool} name="code" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="code" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] w-[25px] h-[25px]'>
                 <MdCode size={22} />
               </button>
 
             </div>
 
-            <textarea ref={textRef} name="" id="" onChange={e => setContent(e.target.value)} cols="40" value={content} className='outline-none text-md p-4' rows="8" placeholder='Write your post content here...'>
+            <textarea ref={textRef} name="" id="" onChange={e => setContent(e.target.value)} cols="20" value={content} className='outline-none text-md p-4 w-full' rows="8" placeholder='Write your post content here...'>
             </textarea>
 
         </section>

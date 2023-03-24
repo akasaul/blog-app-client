@@ -10,7 +10,7 @@ function Menu() {
     <>
 
 {/* overlay  */}
-    <article className='p-3 pb-5 border hidden md:block rounded-lg max-w-[250px] bg-primary'>
+    <article className='p-3 pb-5 border sticky top-0 hidden md:block rounded-lg max-w-[250px] bg-primary'>
 
       <h3 className='flex text-md font-bold items-center justify-between'>
         Dev Community

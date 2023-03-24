@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { API_URL } from '../utils/API_URI';
 
 function AuthorInfo({user, postedAt}) {
 
@@ -11,7 +12,7 @@ function AuthorInfo({user, postedAt}) {
     <div className='flex gap-3'>
       {
         user?.profileImg ? 
-        <img onClick={() => navigate(`/profile/${user?.id}`)} className='max-h-[40px] hover:cursor-pointer w-[40px] object-contain rounded-full' src={`http://localhost:5000/${user?.profileImg}`} alt="" /> : 
+        <img onClick={() => navigate(`/profile/${user?.id}`)} className='max-h-[40px] hover:cursor-pointer w-[40px] object-contain rounded-full' src={`${API_URL}/${user?.profileImg}`} alt="" /> : 
         <span onClick={() => navigate(`/profile/${user?.id}`)} className='bg-gradient-to-r hover:cursor-pointer grid place-content-center font-bold border w-[40px] h-[40px]
         rounded-full from-slate-300 to-green-500'>{user?.name?.slice(0, 1)}</span>
       }

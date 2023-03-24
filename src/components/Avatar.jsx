@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import { signOut } from "../app/features/auth/authSlice";
+import { API_URL } from "../utils/API_URI";
 
 function Avatar({imgUrl, username, id}) {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ function Avatar({imgUrl, username, id}) {
     <button className="relative avatar">
       {
         imgUrl ?
-        <img  className="hover:shadow-md hover:shadow-blue-700 h-[30px] w-[30px] sm:h-[40px] sm:w-[40px] object-cover rounded-full" src={`http://localhost:5000/${imgUrl}`} /> :
+        <img  className="hover:shadow-md hover:shadow-blue-700 h-[30px] w-[30px] sm:h-[40px] sm:w-[40px] object-cover rounded-full" src={`${API_URL}/${imgUrl}`} /> :
         <div  className="hover:shadow-md hover:shadow-blue-700 bg-blue-400 px-2 py-2 h-[30px] w-[30px] sm:h-[40px] sm:w-[40px] rounded-full font-bold">{username?.slice(0, 1)}</div>
       }
 

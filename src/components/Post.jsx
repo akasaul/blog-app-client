@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { MdBookmarkBorder, MdComment, MdFavorite, MdOutlineComment, MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md'
 import useAuthStatus from '../hooks/useAuthStatus'
+import { API_URL } from '../utils/API_URI'
 
 const Post = ({post, setShowModal, profile}) => {
 
@@ -16,15 +17,14 @@ const Post = ({post, setShowModal, profile}) => {
 
   const date = new Date(post?.createdAt).toDateString().split(' ');
 
-
   return (
-    <div className='border rounded-md p-4 my-2 bg-white'>
+    <div className='border rounded-md min-w-[320px] p-4 my-2 bg-white'>
 
       <div className='flex gap-5 text-gray-800'>
         {
           post?.user?.profileImg  ?
           !profile &&
-          <img onClick={() => navigate(`profile/${post?.user?.id}`)} className='max-h-[40px] w-[40px] object-contain rounded-full cursor-pointer' src={`http://localhost:5000/${post?.user?.profileImg}`} alt="" /> : 
+          <img onClick={() => navigate(`profile/${post?.user?.id}`)} className='max-h-[40px] w-[40px] object-contain rounded-full cursor-pointer' src={`${API_URL}/${post?.user?.profileImg}`} alt="" /> : 
           !profile &&
           <span onClick={() => navigate(`profile/${post?.user?.id}`)} className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
           rounded-full cursor-pointer from-slate-300 to-green-500'>{post?.user?.username?.slice(0, 1)}</span>
@@ -33,17 +33,17 @@ const Post = ({post, setShowModal, profile}) => {
        <div className='flex-1'>
        
         <div>
-          <p className='text-sm'>{post?.user?.username }</p>
+          <p className='text-sm lowercase'>{post?.user?.username }</p>
           <p className='text-xs'>{`${date[1]} ${date[2]}`}</p>
         </div>
 
         <div>
           <Link to={`/posts/${post?.id}`} className='sm:text-[24px] text-[20px] hover:text-blue-800 cursor-pointer font-[600] text-start'>{post?.header}</Link>
 
-          <div className='grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 self-start sm:self-auto text-gray-700'>
+          <div className='flex self-start sm:self-auto text-gray-700'>
            {
               post?.tags.split(',').map(tag => 
-                <p className='p-1 px-3 text-sm'>#{tag} 
+                <p className='p-1 text-sm'>#{tag} 
                 </p>  
               )
             }

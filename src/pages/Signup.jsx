@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../app/features/auth/authSlice";
 import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../utils/API_URI";
 
 function Signup() {
 
     const {user, isLoading, isFailed, isSuccess, errors: errorMessage} = useSelector(state => state.auth);
-    console.log(user);
 
     const navigate = useNavigate();
 
@@ -191,7 +191,7 @@ function Signup() {
     }
 
     const handleAuth = async (provider) => {
-        window.location.href = `http://localhost:5000/auth/${provider}`;
+        window.location.href = `${API_URL}/${provider}`;
         // const newWindow = window.open(
         //     authURI, 
         //     '_blank', 

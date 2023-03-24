@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { MdBookmark, MdCake, MdExpandLess, MdExpandMore, MdOutlineComment, MdPostAdd, MdTag } from 'react-icons/md'
+import { API_URL } from '../utils/API_URI';
 import Post from './Post';
 import Spinner from './spinner/Spinner';
 
@@ -23,7 +24,7 @@ function UserDetails({user, self, isLoading}) {
 
         {
           user?.profileImg  ? 
-          <img className='h-[60px] w-[60px] z-30 md:h-[100px] object-cover md:w-[100px] -mt-10 top-[-20px] rounded-full' src={`http://localhost:5000/${user?.profileImg}`} alt="" /> : 
+          <img className='h-[60px] w-[60px] z-30 md:h-[100px] object-cover md:w-[100px] -mt-10 top-[-20px] rounded-full' src={`${API_URL}/${user?.profileImg}`} alt="" /> : 
           <div  className="hover:shadow-md grid 
           h-[60px] w-[60px] z-30 md:h-[100px] object-cover md:w-[100px] -mt-10 top-[-20px] rounded-full md:text-lg font-bold
           place-content-center bg-blue-400 px-2 py-2 sm:h-[40px] sm:w-[40px] ">{user?.username.slice(0, 1)}</div>

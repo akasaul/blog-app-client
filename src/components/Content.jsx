@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Markdown from 'marked-react'
 
 function Content({post}) {
-  console.log(post?.tags);
   return (
     <div className='flex flex-col gap-2'>
 

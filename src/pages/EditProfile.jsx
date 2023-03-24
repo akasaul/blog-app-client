@@ -7,6 +7,7 @@ import {tags} from '../utils/tags';
 
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { editUser } from "../app/features/user/userSlice";
+import { API_URL } from "../utils/API_URI";
 
 function EditProfile() {
 
@@ -105,7 +106,6 @@ function EditProfile() {
             profileImg: e.target.files[0]
         })
 
-        console.log(formData);
     }
 
 
@@ -113,7 +113,6 @@ function EditProfile() {
   const handleSetTags = (tag) => {
     setShowResults(false);
     setSelectedTags([...selectedTags, tag])
-    console.log(selectedTags);
   }
  
   // filter tags
@@ -213,7 +212,7 @@ function EditProfile() {
             profileImg ?
             <img className='max-h-[300px] w-[200px] object-cover object-center rounded-[2rem]' src={profileImg && URL.createObjectURL(profileImg)} alt="" /> : 
             params.get('profileImg') &&
-            <img className='max-h-[300px] w-[200px] object-cover object-center rounded-[2rem]' src={`http://localhost:5000/${params.get('profileImg')}`} alt="" />                
+            <img className='max-h-[300px] w-[200px] object-cover object-center rounded-[2rem]' src={`${API_URL}/${params.get('profileImg')}`} alt="" />                
         }
 
         <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 justify-center cursor-pointer' type="submit">Update <MdEdit /></button>

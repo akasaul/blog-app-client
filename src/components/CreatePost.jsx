@@ -119,7 +119,6 @@ function CreatePost() {
   const handleSetTags = (tag) => {
     setShowResults(false);
     setSelectedTags([...selectedTags, tag])
-    console.log(selectedTags);
   }
  
   // filter tags
@@ -157,7 +156,7 @@ function CreatePost() {
 
 
   return (
-    <div>
+    <div className='mx-5'>
       <form className='bg-white mt-5 flex flex-col gap-2 rounded-lg max-w-[600px] mx-auto' onSubmit={handleSubmit}>
 
         <section className='border'>
@@ -219,44 +218,44 @@ function CreatePost() {
             </div>
           
 
-            <div className='flex py-3 bg-accent px-4 gap-1'>
+            <div className='flex py-3 bg-accent px-4 sm:gap-1 gap-3'>
               
-              <button onClick={handleSetTool} name="bold" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="bold" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdFormatBold  size={32}/>
               </button>
 
-              <button onClick={handleSetTool} name="italic" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="italic" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdFormatItalic  size={32}/>
               </button>
 
-              <button onClick={handleSetTool} name="link" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="link" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdLink  size={32}/>
               </button>
 
-              <button onClick={handleSetTool} name="list" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="list" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdList  size={32}/>  
               </button>
 
-              <button onClick={handleSetTool} name="heading" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="heading" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <FaHeading size={21}/>  
               </button>
               
 
-              <button onClick={handleSetTool} name="underline" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="underline" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdFormatUnderlined size={28}/>  
               </button>
 
-              <button onClick={handleSetTool} name="break" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="break" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdOutlineInsertPageBreak size={22} />
               </button>
 
-              <button onClick={handleSetTool} name="code" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 w-[40px] h-[40px]'>
+              <button onClick={handleSetTool} name="code" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdCode size={22} />
               </button>
 
             </div>
 
-            <textarea ref={textRef} name="" id="" onChange={e => setContent(e.target.value)} cols="40" value={content} className='outline-none text-md p-4' rows="8" placeholder='Write your post content here...'>
+            <textarea ref={textRef} name="" id="" onChange={e => setContent(e.target.value)} cols="20" value={content} className='outline-none text-md p-4 w-full' rows="8" placeholder='Write your post content here...'>
             </textarea>
 
         </section>

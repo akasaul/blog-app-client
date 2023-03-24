@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import AntiPrivateRoute from './components/AntiPrivateRoute';
 import GetUser from './pages/GetUser';
 import EditProfile from './pages/EditProfile';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -61,6 +62,8 @@ function App() {
         </Route>
 
     </Routes>
+
+    <Footer />
     <Toaster />
     </>
   );

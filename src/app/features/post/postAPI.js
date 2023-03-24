@@ -37,8 +37,8 @@ const updatePost = async (formData, id, token) => {
 }
 
 
-const getPosts = async () => {
-  const res = await axios.get(API_URL);
+const getPosts = async (category) => {
+  const res = await axios.get(`${API_URL}?category=${category}`);
   
   return res.data;
 }

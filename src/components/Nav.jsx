@@ -4,16 +4,85 @@ import { FaFacebook, FaGithub, FaInstagram, FaLinkedin, FaTwitter } from 'react-
 
 import Avatar from './Avatar';
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-import { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import useAuthStatus from '../hooks/useAuthStatus';
+import { getPosts } from '../app/features/post/postSlice';
 
 function Nav() {
   const [show, setShow] = useState(false);
   const {user}  = useSelector(state => state.auth);
+  const {posts, isSuccess}  = useSelector(state => state.post);
+  
+
   const { isLoggedIn, checkingStatus } = useAuthStatus();
+  const [searchResults, setSearchResults] = useState();
+  const [showResults, setShowResults] =  useState(false);
+
+
+  const [clickedOutside, setClickedOutside] = useState(false);
+  const myRef = useRef();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  });
+
+  useEffect(() => {
+    setSearchResults(posts);
+  }, [isSuccess]);
+
+
+  // useEffect(() => {
+  //   dispatch(getPosts('relevant'));
+  // }, [])
+
+  const toDate = (date) => {
+    return  new Date(date).toDateString().split(' ');
+  }
+
+
+  const handleClickOutside = e => {
+      if (!myRef.current.contains(e.target)) {
+          setClickedOutside(true);
+      }
+  };
+
+
+  const handleSearch = (e) => {
+
+    setClickedOutside(false);
+
+    if(e.target.value.length > 0) {
+      setShowResults(true);
+    }  else {
+      setShowResults(false);
+    }
+
+    setSearchResults(posts?.filter(post => (
+      post?.header?.toLowerCase()?.includes(e.target.value.toLowerCase())  ||
+      post?.content?.toLowerCase()?.includes(e.target.value.toLowerCase())  ||
+      post?.user?.username?.toLowerCase()?.includes(e.target.value.toLowerCase())  ||
+      post?.user?.name?.toLowerCase()?.includes(e.target.value.toLowerCase())  ||
+      post?.comments?.content?.toLowerCase()?.includes(e.target.value.toLowerCase())
+    )
+    )?.sort((a, b) => (
+      a?.comments?.length - b?.comments?.length ||
+      a?.favorite?.length - b?.favorite?.length 
+    )))
+  }
+
+  const handleClick = (id) => {
+    setShowResults(false)
+    navigate(`/posts/${id}`);
+    window.location.reload();
+  }
 
   return (
     <nav className='border-b-2 bg-primary'>
@@ -29,17 +98,42 @@ function Nav() {
             </button>
 
             <Link to='/' className=''>
-              <img src="/resized_logo_UQww2soKuUsjaOGNB38o.png" className='h-10' alt="" />
+              <img src="/resized_logo_UQww2soKuUsjaOGNB38o.png" className='h-10' alt="Nav Logo" />
             </Link>
 
-            <div className='relative hidden md:block'>
+            <div className='relative w-[400px] hidden md:block'>
            
-              <input type="text" name='search' placeholder='Search..' className='border rounded-md py-[5px] px-2'/>
+              <input type="text" name='search' onFocus={() => navigate('/')} onChange={handleSearch} placeholder='Search..' className='border outline-1 outline-textHover w-full rounded-md py-[5px] px-2'/>
               
               <button className='hover:bg-blue-100 absolute top-0 hover:text-textHover rounded-md right-0 bottom-0 px-[5px]'>
                 <MdSearch size={24} />
               </button>
-          
+             
+              {/* Search Desktop */}
+              {
+                showResults && searchResults.length > 0 && !clickedOutside &&
+                <ul ref={myRef} className='absolute z-[100] border rounded-md bg-white right-0 left-0 p-3'>
+                  <li>
+                    {
+                      searchResults?.map((post, index) => (
+                        index < 4 &&
+                        <Link onClick={() => handleClick(post?.id)} className='p-2 hover:bg-accent hover:text-textHover block rounded-lg hover:underline'>
+                          <h2 className='text-md font-bold'>{post?.header}</h2>
+  
+                          <div className='text-xs flex gap-5 text-gray-600'>
+                            <p>@ {post?.user?.username}</p>
+                            <p>{toDate(post?.createdAt)[1] + ' ' + toDate(post?.createdAt)[2] }</p>
+                          </div>
+  
+                        </Link>
+                      )
+                      )
+                    }
+                </li>
+              </ul>
+            
+              }
+
             </div>
 
           </div>

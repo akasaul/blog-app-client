@@ -9,10 +9,11 @@ import LoginModal from './LoginModal';
 function Main() {
 
   const dispatch = useDispatch();
+  const [category, setCategory] = useState('relevant');
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, []);
+    dispatch(getPosts(category));
+  }, [category]);
 
   const {posts, isLoading, isFailed, isSuccess} =  useSelector(state => state.post)
   const [showModal, setShowModal] = useState(false);
@@ -31,15 +32,18 @@ function Main() {
 
       {/* Filter  */}
       <ul className='flex gap-2 pl-5 font-semiBold text-gray-500'>
-        <li className='hover:bg-white h-[40px] hover:text-textHover font-bold rounded-md px-2 grid place-content-center'>
-          <Link to={'/relevant'}>Relevant</Link>
+        <li>
+          <button className={`hover:bg-white h-[40px] hover:text-textHover font-bold rounded-md px-2 ${category === 'relevant' && 'bg-white text-textHover' }`} onClick={() => setCategory('relevant')}>Relevant</button>
         </li>
-        <li className='hover:bg-white h-[40px] hover:text-textHover font-bold rounded-md px-2 grid place-content-center'>
-          <Link to={'/latest'}>Latest</Link>
+
+        <li>
+        <button className={`hover:bg-white h-[40px] hover:text-textHover font-bold rounded-md px-2 ${category === 'top' && 'bg-white text-textHover' }`} onClick={() => setCategory('top')}>Top</button>
         </li>
-        <li className='hover:bg-white h-[40px] hover:text-textHover font-bold rounded-md px-2 grid place-content-center'>
-          <Link to={'/latest'}>Top</Link>
+        
+        <li>
+        <button className={`hover:bg-white h-[40px] hover:text-textHover font-bold rounded-md px-2 ${category === 'latest' && 'bg-white text-textHover' }`} onClick={() => setCategory('latest')}>Latest</button>
         </li>
+
       </ul>
 
       {/* Posts */}
@@ -48,7 +52,6 @@ function Main() {
         {
           isSuccess && posts &&
           posts?.map(post => (
-            // <Post key={post?.id} time={post?.content?.split(' ')?.length / 60} setShowModal={setShowModal} id={post?.id} avatar={post?.user?.profileImg} username={post?.user?.username} comments={post?.comments} tags={post?.tags} header={post?.header}  post={post} />
             <Post key={post?.id} setShowModal={setShowModal}  post={post} />
 
           ))
@@ -56,6 +59,7 @@ function Main() {
       </div>
 
     </div>
+
   )
 }
 

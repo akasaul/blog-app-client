@@ -34,3 +34,7 @@ button:disabled:hover {
     transition: all ease-in-out 1000;
     display: block;
 }
+
+/* * {
+    border: 1px solid red;  
+  } */

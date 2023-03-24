@@ -12,6 +12,7 @@ import { postReaction } from '../app/features/reaction/reactionSlice';
 import useAuthStatus from '../hooks/useAuthStatus';
 import LoginModal from '../components/LoginModal';
 import { toggleFav } from '../app/features/favs/favSlice';
+import { API_URL } from '../utils/API_URI';
 
 function Details() {
 
@@ -155,172 +156,172 @@ function Details() {
   const date = new Date(post?.user?.createdAt).toDateString().split(' ');
 
   return (
-    <section className='flex items-start max-w-[1300px] mt-3 gap-4 mx-auto'>
-      {
-        showModal &&
-          <DeleteModal header={post?.header} setShowModal={setShowModal} id={post?.id} />
-      }
+      <section className='flex items-start max-w-[1300px] mt-3 gap-4 mx-auto'>
+        {
+          showModal &&
+            <DeleteModal header={post?.header} setShowModal={setShowModal} id={post?.id} />
+        }
 
-      {
-        showLogInModal &&
-          <LoginModal message={'Login To Give Reaction'} setShowModal={setShowLogInModal} />
-      }
+        {
+          showLogInModal &&
+            <LoginModal message={'Login To Give Reaction'} setShowModal={setShowLogInModal} />
+        }
 
-      <div className='min-w-[100px] border fixed md:static bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t
-      md:border-none'>
+        <div className='min-w-[100px] border fixed md:sticky md:top-0 bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t
+        md:border-none'>
 
-        <div className='flex add-reaction flex-col items-center relative'>
-          <button><MdOutlineAddReaction size={24} className="hover:text-blue-500"/> </button>
-          <p className='text-sm text-gray-700 hidden sm:block'>{
-          count}</p>
-         
-          <div className='absolute bg-white left-[30px] top-[-20px] md:top-0  w-[170px] px-4 justify-between flex items-center p-2 border gap-5 z-50 rounded-lg reactions'>
-            <button onClick={() => handleReaction('heart')} className="text-[20px] flex flex-col items-center hover:scale-110">
-              💖
-              <span className='text-sm'>{hearts}</span>
-            </button>
+          <div className='flex add-reaction flex-col items-center relative'>
+            <button><MdOutlineAddReaction size={24} className="hover:text-blue-500"/> </button>
+            <p className='text-sm text-gray-700 hidden sm:block'>{
+            count}</p>
+          
+            <div className='absolute bg-white left-[30px] top-[-20px] md:top-0  w-[170px] px-4 justify-between flex items-center p-2 border gap-5 z-50 rounded-lg reactions'>
+              <button onClick={() => handleReaction('heart')} className="text-[20px] flex flex-col items-center hover:scale-110">
+                💖
+                <span className='text-sm'>{hearts}</span>
+              </button>
 
-            <button onClick={() => handleReaction('unicorn')} className="text-[20px] flex flex-col items-center hover:scale-110">
-                ⭐
-              <span className='text-sm'>
-              {unicorn}
-              </span>
-            </button>
+              <button onClick={() => handleReaction('unicorn')} className="text-[20px] flex flex-col items-center hover:scale-110">
+                  ⭐
+                <span className='text-sm'>
+                {unicorn}
+                </span>
+              </button>
 
-            <button onClick={() => handleReaction('fire')} className="text-[20px] flex flex-col items-center hover:scale-110">
-                🔥
-              <span className='text-sm'>
-              {fire}
-              </span>
-            </button>
+              <button onClick={() => handleReaction('fire')} className="text-[20px] flex flex-col items-center hover:scale-110">
+                  🔥
+                <span className='text-sm'>
+                {fire}
+                </span>
+              </button>
 
+            </div>
+          
           </div>
-        
-        </div>
-
-        <span className='flex flex-col items-center'>
-          <button><MdOutlineComment size={24} className="hover:text-yellow-500"/> </button>
-          <p className='text-sm text-gray-700 hidden sm:block'>{post?.comments?.length}</p>
-        </span>
 
           <span className='flex flex-col items-center'>
-              <button onClick={handleAddToFavorites}>
-                {
-                  faved ? 
-                  <MdBookmark  size={24} className="text-blue-500"/> :
-                  <MdOutlineBookmarkBorder size={24} className="hover:text-blue-500"/> 
-                }
-              </button>
-                  
-            <p className='text-sm text-gray-700 hidden sm:block'>{
-              favCount}</p>
+            <button><MdOutlineComment size={24} className="hover:text-yellow-500"/> </button>
+            <p className='text-sm text-gray-700 hidden sm:block'>{post?.comments?.length}</p>
           </span>
 
-        {
-          user?.id === post?.user?.id &&
-          <>
-            <button onClick={handleWarning}><MdOutlineDelete size={28} className="hover:text-red-500 self-start"/></button>
+            <span className='flex flex-col items-center'>
+                <button onClick={handleAddToFavorites}>
+                  {
+                    faved ? 
+                    <MdBookmark  size={24} className="text-blue-500"/> :
+                    <MdOutlineBookmarkBorder size={24} className="hover:text-blue-500"/> 
+                  }
+                </button>
+                    
+              <p className='text-sm text-gray-700 hidden sm:block'>{
+                favCount}</p>
+            </span>
 
-            <Link to={`/edit?header=${post?.header}&&user=${post?.user?.id}&&content=${post?.content?.replaceAll('#', '@')}&&tags=${post?.tags}&&imageUrl=${post?.imageUrl}&&id=${post?.id}`}><MdOutlineEdit size={28} className="hover:text-violet-500 self-start"/></Link>
-          </>
-        }
+          {
+            user?.id === post?.user?.id &&
+            <>
+              <button onClick={handleWarning}><MdOutlineDelete size={28} className="hover:text-red-500 self-start"/></button>
 
-        <span className='flex flex-col items-center'>
-          <button><MdOutlineMoreHoriz size={24} className="hover:text-blue-500"/> </button>
-        </span>
-
-
-      </div>
-
-      <div className='bg-white flex-1 max-w-[800px] border flex flex-col'>
-        {
-          post?.imageUrl &&
-          <div className='h-[250px]'>
-            <img className='h-full w-full rounded-t-lg object-cover object-top' src={`http://localhost:5000/${post?.imageUrl}`}  alt="" />
-          </div>
-        }
-        
-        <div className='p-6 flex gap-5 flex-col'>
-          <div className='max-w-[90%] mx-auto  w-full'>
-            <AuthorInfo user={post?.user} postedAt={post?.createdAt} />
-            <Content post={post} />
-          </div>
-        </div>
-
-        <Comments post={post}  /> 
-
-      </div>
-
-    {/* Profile Component */}
-    <div className='hidden flex-col gap-3 min-w-[250px] max-w-[350px] lg:flex '>
-
-      <div className='bg-white flex flex-col gap-4  p-4 border rounded-lg '>
-      
-        <div className='flex items-end gap-2 mt-2'>
-            {
-            post?.user?.profileImg ? 
-            <img className='max-h-[40px] w-[40px] object-contain rounded-full' src={`http://localhost:5000/${post?.user?.profileImg}`} alt="" /> : 
-              <span className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
-              rounded-full from-slate-300 to-green-500'>{post?.user?.name?.slice(0, 1)}</span>
+              <Link to={`/edit?header=${post?.header}&&user=${post?.user?.id}&&content=${post?.content?.replaceAll('#', '@')}&&tags=${post?.tags}&&imageUrl=${post?.imageUrl}&&id=${post?.id}`}><MdOutlineEdit size={28} className="hover:text-violet-500 self-start"/></Link>
+            </>
           }
-          <h2 className='text-md font-bold'>{post?.user?.name}</h2>
+
+          <span className='flex flex-col items-center'>
+            <button><MdOutlineMoreHoriz size={24} className="hover:text-blue-500"/> </button>
+          </span>
+
+
         </div>
-    
-        <Link to={`/profile/${post?.user?.id}`} className='bg-[#313CB9] w-full text-center p-2 text-white rounded-lg'>Go to Profile</Link>
 
-      <p className='text-gray-600'>
-          {post?.user?.bio}
-      </p>
-
-      <div className='text-gray-600'>
-        <p className='font-[600]'>Joined</p>
-        <p>{date[1] + ' ' + date[2] + ', ' + date[3]}</p>
-      </div>
-
-      </div>
-
-      { 
-        post?.user?.posts.length > 0 &&
-        
-        <div className="bg-white border rounded-lg p-4">
-            <h2 className='text-md font-bold mb-5'>More from 
-            <span className='text-textHover mx-2'>{post?.user?.name}</span></h2>
-
-          <div className='flex flex-col gap-5'>
-
-            {
-              post?.user?.posts?.map((curPost, index) => (
-                index < 4 && curPost?.id !== post?.id &&
-
-                <section className=' flex flex-col text-gray-600'>
-                
-                  <a href={`/posts/${curPost?.id}`} className='mb-1 hover:text-textHover'>{curPost?.header}</a>
-                
-                  <div className='flex gap-2 '>
-                    <span>
-                      {
-                        curPost?.tags?.split(',')?.map(tag => 
-                          <p key={tag + Date.now()} className='p-1 px-3 text-sm'>#{tag} 
-                          </p>  
-                        )
-                      }
-                    </span>
-                  </div>
-                </section>
-
-              ))
-            }
-
-          </div>
+        <div className='bg-white flex-1 max-w-[800px] border flex flex-col'>
+          {
+            post?.imageUrl &&
+            <div className='h-[250px]'>
+              <img className='h-full w-full rounded-t-lg object-cover object-top' src={`${API_URL}/${post?.imageUrl}`}  alt="" />
+            </div>
+          }
           
+          <div className='p-6 flex gap-5 flex-col'>
+            <div className='max-w-[90%] mx-auto w-full'>
+              <AuthorInfo user={post?.user} postedAt={post?.createdAt} />
+              <Content post={post} />
+            </div>
+          </div>
+
+          <Comments post={post}  /> 
+
         </div>
 
-      }
+      {/* Profile Component */}
+      <div className='hidden flex-col gap-3 min-w-[250px] max-w-[350px] lg:flex '>
 
-
-    </div>
+        <div className='bg-white flex flex-col gap-4  p-4 border rounded-lg '>
+        
+          <div className='flex items-end gap-2 mt-2'>
+              {
+              post?.user?.profileImg ? 
+              <img className='max-h-[40px] w-[40px] object-contain rounded-full' src={`${API_URL}/${post?.user?.profileImg}`} alt="" /> : 
+                <span className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
+                rounded-full from-slate-300 to-green-500'>{post?.user?.name?.slice(0, 1)}</span>
+            }
+            <h2 className='text-md font-bold'>{post?.user?.name}</h2>
+          </div>
       
-    </section>
+          <Link to={`/profile/${post?.user?.id}`} className='bg-[#313CB9] w-full text-center p-2 text-white rounded-lg'>Go to Profile</Link>
+
+        <p className='text-gray-600'>
+            {post?.user?.bio}
+        </p>
+
+        <div className='text-gray-600'>
+          <p className='font-[600]'>Joined</p>
+          <p>{date[1] + ' ' + date[2] + ', ' + date[3]}</p>
+        </div>
+
+        </div>
+
+        { 
+          post?.user?.posts.length > 0 &&
+          
+          <div className="bg-white border rounded-lg p-4">
+              <h2 className='text-md font-bold mb-5'>More from 
+              <span className='text-textHover mx-2'>{post?.user?.name}</span></h2>
+
+            <div className='flex flex-col gap-5'>
+
+              {
+                post?.user?.posts?.map((curPost, index) => (
+                  index < 4 && curPost?.id !== post?.id &&
+
+                  <section className=' flex flex-col text-gray-600'>
+                  
+                    <a href={`/posts/${curPost?.id}`} className='mb-1 hover:text-textHover'>{curPost?.header}</a>
+                  
+                    <div className='flex gap-2 '>
+                      <span>
+                        {
+                          curPost?.tags?.split(',')?.map(tag => 
+                            <p key={tag + Date.now()} className='p-1 px-3 text-sm'>#{tag} 
+                            </p>  
+                          )
+                        }
+                      </span>
+                    </div>
+                  </section>
+
+                ))
+              }
+
+            </div>
+            
+          </div>
+
+        }
+
+
+      </div>
+        
+      </section>
   )
 }
 
