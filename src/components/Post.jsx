@@ -38,9 +38,9 @@ const Post = ({post, setShowModal, profile}) => {
         </div>
 
         <div>
-          <Link to={`/posts/${post?.id}`} className='text-[24px] hover:text-blue-800 cursor-pointer font-[600] text-start'>{post?.header}</Link>
+          <Link to={`/posts/${post?.id}`} className='sm:text-[24px] text-[20px] hover:text-blue-800 cursor-pointer font-[600] text-start'>{post?.header}</Link>
 
-          <div className='flex text-gray-700'>
+          <div className='grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 self-start sm:self-auto text-gray-700'>
            {
               post?.tags.split(',').map(tag => 
                 <p className='p-1 px-3 text-sm'>#{tag} 
@@ -96,8 +96,8 @@ const Post = ({post, setShowModal, profile}) => {
               </div>
 
               <span className='flex items-center gap-3 text-sm text-gray-700'>
-                {post?.content?.length / 60 < 1 ? parseInt(post?.content?.length / 60 * 100) + ' second read' : 
-                parseInt(post?.content?.length / 60) +  " minute read" 
+                {post?.content?.length / 60 < 1 ? parseInt(post?.content?.length / 60 * 100) + ' sec read' : 
+                parseInt(post?.content?.length / 60) +  " min read" 
                 } 
                   <MdBookmarkBorder size={24} />
               </span>

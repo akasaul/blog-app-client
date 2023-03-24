@@ -1,5 +1,5 @@
-import React from 'react'
-import { MdCake, MdOutlineComment, MdPostAdd, MdTag } from 'react-icons/md'
+import React, { useState } from 'react'
+import { MdBookmark, MdCake, MdExpandLess, MdExpandMore, MdOutlineComment, MdPostAdd, MdTag } from 'react-icons/md'
 import Post from './Post';
 import Spinner from './spinner/Spinner';
 
@@ -8,12 +8,17 @@ function UserDetails({user, self, isLoading}) {
 
   const date = new Date(user?.createdAt).toDateString().split(' ');
 
+  const [showAllPosts, setShowAllPosts] = useState(false);
+
+  const [showAllFavs, setShowAllFavs] = useState(false);
+
+
   if(isLoading) {
     return <Spinner />
   }
 
   return (
-    <div>
+    <div className='flex flex-col gap-5'>
       <section className='p-3 bg-white border relative rounded-lg flex flex-col md:items-center'>
 
         {
@@ -55,7 +60,7 @@ function UserDetails({user, self, isLoading}) {
 
         <p className='flex items-center text-gray-600  w-full text-[16px] gap-3'> <MdOutlineComment size={20} /> {user?.comments?.length > 0 ? user?.comments?.length : '0' } comments published</p>
 
-        <p className='flex items-center text-gray-600  w-full text-[16px] gap-3'> <MdTag size={24} /> 0 tags published</p>
+        <p className='flex items-center text-gray-600  w-full text-[16px] gap-3'> <MdBookmark size={24} /> {user?.favorites?.length} posts Bookmarked</p>
 
       </section>
 
@@ -65,11 +70,59 @@ function UserDetails({user, self, isLoading}) {
         <section className='bg-white p-3 border rounded-lg'>
           <h1 className='font-bold'>Posts</h1>
           {
-            user?.posts?.map(post => (
-              <Post post={post} profile={true}/>
-            ))
+            user?.posts?.map((post, index) => {
+                if(showAllPosts) {
+                  return <Post post={post} profile={true}/>
+                }
+                if(!showAllPosts) {
+                  if(index < 4) {
+                    return <Post post={post} profile={true}/> 
+                  }
+                }
+              }
+            )
+          }
+
+          {
+            ! showAllPosts && user?.posts?.length > 4 ? 
+              <button onClick={() => setShowAllPosts(true)} className='border-textHover hover:bg-textHover hover:text-white border p-2 text-textHover rounded-lg my-3 flex items-end gap-3'>Show All 
+              <MdExpandMore /> </button> : 
+              user?.posts?.length > 4 &&
+              <button onClick={() => setShowAllPosts(false)} className='border-textHover hover:bg-textHover hover:text-white border p-2 text-textHover rounded-lg my-3 flex items-end gap-3'>Show Less
+              <MdExpandLess />
+              </button> 
           }
         </section>
+      }
+
+      {
+        self && user?.favorites?.length > 0 &&
+          <section className='bg-white p-3 border rounded-lg'>
+            <h1 className='font-bold'>Favorite Posts</h1>
+            {
+            user?.favorites?.map((post, index) => {
+                if(showAllFavs) {
+                  return <Post post={post?.post} profile={true}/>
+                }
+                if(!showAllFavs) {
+                  if(index < 4) {
+                    return <Post post={post?.post} profile={true}/> 
+                  }
+                }
+              }
+            )
+          }
+
+        {
+            ! showAllFavs && user?.favorites?.length > 4 ? 
+              <button onClick={() => setShowAllFavs(true)} className='border-textHover hover:bg-textHover hover:text-white border p-2 text-textHover rounded-lg my-3 flex items-end gap-3'>Show All 
+              <MdExpandMore /> </button> : 
+              user?.favorites?.length > 4 &&
+              <button onClick={() => setShowAllFavs(false)} className='border-textHover hover:bg-textHover hover:text-white border p-2 text-textHover rounded-lg my-3 flex items-end gap-3'>Show Less
+              <MdExpandLess />
+              </button> 
+          }
+          </section>
       }
     </div>
   )
