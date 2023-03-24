@@ -11,6 +11,8 @@ import AddDetails from './pages/AddDetails';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/Profile';
 import AntiPrivateRoute from './components/AntiPrivateRoute';
+import GetUser from './pages/GetUser';
+import EditProfile from './pages/EditProfile';
 
 
 function App() {
@@ -50,9 +52,12 @@ function App() {
           <Route path='/profile' element={<Profile />} />
         </Route>
 
-
+        <Route path='/edit-profile' element={<PrivateRoute />} >
+          <Route path='/edit-profile' element={<EditProfile />} />
+        </Route>
+        
         <Route path='/profile/:id' element={<PrivateRoute />} >
-          <Route path='/profile/:id' element={<NewPost />} />
+          <Route path='/profile/:id' element={<GetUser />} />
         </Route>
 
     </Routes>

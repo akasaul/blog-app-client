@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { MdBookmarkBorder, MdComment, MdFavorite, MdOutlineComment, MdOutlineFavorite, MdOutlineFavoriteBorder } from 'react-icons/md'
 import useAuthStatus from '../hooks/useAuthStatus'
 
-// const Post = ({username, comments, time, tags,avatar, setShowModal, header, id}) => {
-
 const Post = ({post, setShowModal, profile}) => {
 
   const { isLoggedIn } = useAuthStatus();

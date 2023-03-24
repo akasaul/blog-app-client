@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaHeading } from 'react-icons/fa'
 import { MdClose, MdCode, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdLink, MdList, MdOutlineInsertPageBreak, MdPhotoCamera } from 'react-icons/md'
 import { setInputPos, setInputSelection } from '../utils/cursorPos';
-import {tools, mapTools} from '../utils/tools';
+import { mapTools} from '../utils/tools';
 import { tags } from '../utils/tags';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost } from '../app/features/post/postSlice';
@@ -22,7 +22,7 @@ function CreatePost() {
 
   // Redux states and dispatcher
   const dispatch = useDispatch();
-  const {post, isLoading, isFailed, isSuccess, errors} = useSelector(state => state.post)
+  const {post, isFailed, isSuccess, errors} = useSelector(state => state.post)
 
 
   // React router dom

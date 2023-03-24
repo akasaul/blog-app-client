@@ -28,6 +28,7 @@ function EditPost() {
   const {post, isLoading, isFailed, isSuccess, errors} = useSelector(state => state.post)
 
   const textRef = useRef();
+  const tagRef = useRef();
 
   // Reset All states 
   useEffect(() => {
@@ -113,12 +114,12 @@ function EditPost() {
     setCurrentTool(e.currentTarget.name);
   }
 
-  // Adding the selected tag to cur state
-  const handleSetTags = (tag) => {
-    setShowResults(false);
-    setSelectedTags([...selectedTags, tag])
-  }
- 
+ // Adding the selected tag to cur state
+ const handleSetTags = (tag) => {
+  setShowResults(false);
+  setSelectedTags([...selectedTags, tag])
+}
+
   // filter tags
   const handleChange = (e) => {
     setTagList(
@@ -130,10 +131,14 @@ function EditPost() {
   const handleTagSubmit = (e) => {
     if(e.key == 'Enter') {
       e.preventDefault();
-      setSelectedTags([...selectedTags, e.target.value])
+      if(selectedTags.includes(tagRef.current.value)) {
+        toast.error('a hashtag can only be used once');
+        return;
+      }
+      setSelectedTags([...selectedTags, tagRef.current.value])
+      tagRef.current.value = '';
     }
-  }
-  
+  }  
   // On Form Submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -169,9 +174,9 @@ function EditPost() {
              
               <input type="text" name="title" value={header} onChange={e => setHeader(e.target.value)} placeholder='New post title here...' className='p-2 text-[24px] outline-none font-bold' />
 
-              <div className='flex gap-1'>
+            <div className='flex gap-1'>
                 {
-                  selectedTags?.length > 0 &&
+                  selectedTags.length > 0 &&
                     selectedTags.map(tag => 
                       <button key={tag} type='button' className='text-gray-600 flex item-center gap-1 p-1 px-2 rounded-lg hover:bg-textPrimary hover:text-white border'>#{tag}
 
@@ -181,11 +186,24 @@ function EditPost() {
                 }
                 
                 <div className='relative'>
-                  <input type="text" onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
+                  {
+                    selectedTags.length < 4 &&
+                    <input type="text" ref={tagRef} onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
+                  }
+
                   {
                     showResults &&
                       <ul className='absolute  bg-white
                       left-0 right-0'>
+                        <div className='flex justify-end px-2' onClick={() => setShowResults(false)}>
+                          
+                          { tagList.length > 0 &&
+                            <button onClick={() => setShowResults(false)}>
+                              <MdClose />
+                            </button>
+                          }
+
+                        </div>
                         {
                           tagList.map(tag =>
                             <li key={tag} onClick={() => handleSetTags(tag)} className='p-2 text-sm border-b cursor-pointer hover:bg-accent'>#{tag}</li>

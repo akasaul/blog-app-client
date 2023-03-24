@@ -4,13 +4,14 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { getPost } from '../app/features/post/postSlice';
 import AuthorInfo from '../components/AuthorInfo'
 import Content from '../components/Content'
-import { MdOutlineAddReaction, MdOutlineBookmarkBorder, MdOutlineComment, MdOutlineDelete, MdOutlineEdit, MdOutlineMoreHoriz } from 'react-icons/md'
+import { MdBookmark, MdOutlineAddReaction, MdOutlineBookmarkBorder, MdOutlineComment, MdOutlineDelete, MdOutlineEdit, MdOutlineMoreHoriz } from 'react-icons/md'
 import Spinner from '../components/spinner/Spinner';
 import Comments from '../components/Comments';
 import DeleteModal from '../components/DeleteModal';
 import { postReaction } from '../app/features/reaction/reactionSlice';
 import useAuthStatus from '../hooks/useAuthStatus';
 import LoginModal from '../components/LoginModal';
+import { toggleFav } from '../app/features/favs/favSlice';
 
 function Details() {
 
@@ -39,6 +40,10 @@ function Details() {
   const [unicorn, setUnicorn] = useState(0);
   const [fire, setFire] = useState(0);
   const [count, setCount] = useState(0);
+
+  // Favorite states 
+  const [faved, setFaved] = useState(false);
+  const [favCount, setFavCount] = useState();
   
 
   // giving reaction
@@ -97,6 +102,11 @@ function Details() {
       setUnicorn(post?.reactions?.filter(reaction => reaction?.type === 'unicorn')?.length);
 
       setCount(post?.reactions?.length);
+
+      setFaved(post?.favorites?.find(fav => fav?.user?.id === user?.id) ? true : false);
+
+      setFavCount(post?.favorites?.length);
+
     }
 
   }, [isSuccess])
@@ -119,6 +129,27 @@ function Details() {
       setShowLogInModal(true);
     }
     setSelectedReaction(reaction);
+  }
+
+  const handleAddToFavorites = async () => {
+
+    if(!isLoggedIn) {
+      setShowLogInModal(true);
+      return;
+    }
+
+    await dispatch(toggleFav(post?.id))
+
+    if(faved) {
+      setFavCount(prev => prev - 1)
+      setFaved(false)
+    } 
+    
+    else {
+      setFavCount(prev => prev + 1)
+      setFaved(true)
+    }
+    
   }
 
   const date = new Date(post?.user?.createdAt).toDateString().split(' ');
@@ -172,10 +203,18 @@ function Details() {
           <p className='text-sm text-gray-700 hidden sm:block'>{post?.comments?.length}</p>
         </span>
 
-        <span className='flex flex-col items-center'>
-          <button><MdOutlineBookmarkBorder size={24} className="hover:text-blue-500"/> </button>
-          <p className='text-sm text-gray-700 hidden sm:block'>5</p>
-        </span>
+          <span className='flex flex-col items-center'>
+              <button onClick={handleAddToFavorites}>
+                {
+                  faved ? 
+                  <MdBookmark  size={24} className="text-blue-500"/> :
+                  <MdOutlineBookmarkBorder size={24} className="hover:text-blue-500"/> 
+                }
+              </button>
+                  
+            <p className='text-sm text-gray-700 hidden sm:block'>{
+              favCount}</p>
+          </span>
 
         {
           user?.id === post?.user?.id &&
@@ -227,7 +266,7 @@ function Details() {
           <h2 className='text-md font-bold'>{post?.user?.name}</h2>
         </div>
     
-        <Link to={`/profile/${user?.id}`} className='bg-[#313CB9] w-full text-center p-2 text-white rounded-lg'>Go to Profile</Link>
+        <Link to={`/profile/${post?.user?.id}`} className='bg-[#313CB9] w-full text-center p-2 text-white rounded-lg'>Go to Profile</Link>
 
       <p className='text-gray-600'>
           {post?.user?.bio}

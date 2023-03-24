@@ -130,9 +130,9 @@ function AddDetails() {
 
                         </div>
                         {
-                          tagList.map(tag =>
-                            <li key={tag} onClick={() => handleSetTags(tag)} className='p-2 text-sm border-b cursor-pointer hover:bg-accent'>#{tag}</li>
-                        )
+                            tagList.map(tag =>
+                              <li key={tag} onClick={() => handleSetTags(tag)} className='p-2 text-sm border-b cursor-pointer hover:bg-accent'>#{tag}</li>
+                          )
                         }
                       </ul>
 

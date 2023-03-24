@@ -52,6 +52,19 @@ export const getUser = createAsyncThunk(
     }
 )
 
+export const editUser = createAsyncThunk(
+    'user/editUser', 
+    async (data, thunkAPI) => {
+        try {
+            const res = await userAPI.editUser(data.id, data.formData,thunkAPI.getState().auth.user.token);
+            return res.data;
+
+        } catch(err) {
+            const message = err.response.data.message;
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+)
 
 const userSlice = createSlice({
     name: 'user',
@@ -121,6 +134,27 @@ const userSlice = createSlice({
                 state.isSuccess = true;
                 state.errors = null;
             }) 
+
+            // get User 
+            .addCase(editUser.pending, (state, action) => {
+                state.isLoading = true;
+                state.isSuccess = false;
+                state.isFailed = false;
+            }) 
+            .addCase(editUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = false;
+                state.isFailed = true;
+                state.errors = action.payload;
+            }) 
+            .addCase(editUser.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.isLoading = false;
+                state.isFailed = false;
+                state.isSuccess = true;
+                state.errors = null;
+            }) 
+            
             
     }
 })

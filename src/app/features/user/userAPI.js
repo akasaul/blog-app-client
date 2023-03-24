@@ -27,4 +27,13 @@ const getUser = async (id, token) => {
   })
 }
 
-export default {addUserDetails, getMe, getUser}
+const editUser = async (id, formData, token) => {
+  return await axios.put(`${API_URL}/edit/${id}`, formData, {
+    headers: {
+      'token': `Bearer ${token}`
+    }
+  })
+}
+
+
+export default {addUserDetails, getMe, getUser, editUser}
