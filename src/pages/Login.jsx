@@ -3,7 +3,7 @@ import { MdLogin } from 'react-icons/md';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../app/features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 
 function Login() {
@@ -62,7 +62,14 @@ function Login() {
             <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 
             justify-center' type="submit">Login <MdLogin /></button>
 
+            <p className="flex items-center gap-3">
+                Not Joined as yet? 
+                <Link to={'/signup'} className='text-md
+                p-1 px-2 hover:bg-textHover rounded hover:text-white text-textHover'>Signup</Link>
+            </p>
         </form>
+
+
 
     </section>
   )

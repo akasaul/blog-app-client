@@ -14,6 +14,7 @@ import AntiPrivateRoute from './components/AntiPrivateRoute';
 import GetUser from './pages/GetUser';
 import EditProfile from './pages/EditProfile';
 import Footer from './components/Footer';
+import NotFoundPage from './pages/NotFoundPage';
 
 
 function App() {
@@ -60,6 +61,8 @@ function App() {
         <Route path='/profile/:id' element={<PrivateRoute />} >
           <Route path='/profile/:id' element={<GetUser />} />
         </Route>
+
+        <Route path='*' element={<NotFoundPage />} />
 
     </Routes>
 

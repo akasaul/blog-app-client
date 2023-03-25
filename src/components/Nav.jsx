@@ -7,9 +7,8 @@ import Avatar from './Avatar';
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useAuthStatus from '../hooks/useAuthStatus';
-import { getPosts } from '../app/features/post/postSlice';
 
 function Nav() {
   const [show, setShow] = useState(false);
@@ -21,11 +20,12 @@ function Nav() {
   const [searchResults, setSearchResults] = useState();
   const [showResults, setShowResults] =  useState(false);
 
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
 
   const [clickedOutside, setClickedOutside] = useState(false);
   const myRef = useRef();
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
 
@@ -49,7 +49,7 @@ function Nav() {
 
 
   const handleClickOutside = e => {
-      if (!myRef.current.contains(e.target)) {
+      if (!myRef.current?.contains(e.target)) {
           setClickedOutside(true);
       }
   };
@@ -101,6 +101,7 @@ function Nav() {
               <img src="/resized_logo_UQww2soKuUsjaOGNB38o.png" className='h-10' alt="Nav Logo" />
             </Link>
 
+              {/* Search Desktop */}
             <div className='relative w-[400px] hidden md:block'>
            
               <input type="text" name='search' onFocus={() => navigate('/')} onChange={handleSearch} placeholder='Search..' className='border outline-1 outline-textHover w-full rounded-md py-[5px] px-2'/>
@@ -109,7 +110,6 @@ function Nav() {
                 <MdSearch size={24} />
               </button>
              
-              {/* Search Desktop */}
               {
                 showResults && searchResults.length > 0 && !clickedOutside &&
                 <ul ref={myRef} className='absolute z-[100] border rounded-md bg-white right-0 left-0 p-3'>
@@ -117,7 +117,7 @@ function Nav() {
                     {
                       searchResults?.map((post, index) => (
                         index < 4 &&
-                        <Link onClick={() => handleClick(post?.id)} className='p-2 hover:bg-accent hover:text-textHover block rounded-lg hover:underline'>
+                        <Link key={index + post?.header + Date.now()} onClick={() => handleClick(post?.id)} className='p-2 hover:bg-accent hover:text-textHover block rounded-lg hover:underline'>
                           <h2 className='text-md font-bold'>{post?.header}</h2>
   
                           <div className='text-xs flex gap-5 text-gray-600'>
@@ -151,7 +151,40 @@ function Nav() {
 
             }
 
-            <MdSearch size={30} className='md:hidden' />
+
+            <div className='flex relative items-center md:hidden gap-3'>
+              {
+                showSearchBar &&
+                <input type="text" name='search' onFocus={() => navigate('/')} onChange={handleSearch} placeholder='Search..' className='border outline-1 outline-textHover rounded-md py-[5px] sm:max-w-[500px] max-w-[120px] px-2 sm '/>
+              }
+              
+              <MdSearch size={30} className=' hover:cursor-pointer' onClick={() => setShowSearchBar(prev => !prev)} />
+              
+              {
+                 showResults && searchResults.length > 0 && !clickedOutside &&
+                 <ul ref={myRef} className='absolute z-[100] border rounded-md bg-white top-10 right-0 left-0 p-3'>
+                   <li>
+                     {
+                       searchResults?.map((post, index) => (
+                         index < 3 &&
+                         <Link key={index + post?.header + Date.now()} onClick={() => handleClick(post?.id)} className='p-2 hover:bg-accent hover:text-textHover block rounded-lg hover:underline'>
+                           <h2 className='text-md font-bold'>{post?.header}</h2>
+   
+                           <div className='text-xs flex gap-5 text-gray-600'>
+                             <p>@ {post?.user?.username}</p>
+                             <p>{toDate(post?.createdAt)[1] + ' ' + toDate(post?.createdAt)[2] }</p>
+                           </div>
+   
+                         </Link>
+                       )
+                       )
+                     }
+                 </li>
+               </ul>
+             
+              }
+              
+            </div>
 
             { 
              user ?
@@ -167,7 +200,7 @@ function Nav() {
         
         {/* Side bar  */}
         
-          <section className='fixed' 
+          <section className='fixed block md:hidden' 
             style={{
               transform: !show && 'translateX(-3000px)',
               transition: 'transform ease-in-out 500'
@@ -183,7 +216,7 @@ function Nav() {
             <article className='fixed p-3 max-w-[300px] bg-primary top-0 bottom-0 left-0'>
             
               <h3 className='flex text-md font-bold items-center justify-between'>
-                Dev Community
+                Niko Community
                 
                 <button className='h-10 w-10 rounded-md text-center grid place-content-center hover:text-textHover hover:bg-blue-100' onClick={() => setShow(false)}>
                   <MdClose size={22} />
@@ -195,7 +228,7 @@ function Nav() {
 
                 <div className="flex flex-col gap-5 px-3">
                   <h3 className='font-bold'>
-                    DEV Community is a community of 1,022,645 amazing developers 
+                    Niko Blog is a community of amazing developers 
                   </h3>
 
                   <p className='text-gray-600'>
@@ -299,9 +332,9 @@ function Nav() {
                     </li>
 
                     <li>
-                      <Link to="/" className='text-gray-600 hover:text-textHover'>
+                      <a target='_blank' href="https://github.com/akasaul" className='text-gray-600 hover:text-textHover'>
                         <FaGithub size={24} />
-                      </Link>
+                      </a>
                     </li>
 
                     <li>

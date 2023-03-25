@@ -275,13 +275,13 @@ function Details() {
 
         <div className='text-gray-600'>
           <p className='font-[600]'>Joined</p>
-          <p>{date[1] + ' ' + date[2] + ', ' + date[3]}</p>
+          <span>{date[1] + ' ' + date[2] + ', ' + date[3]}</span>
         </div>
 
         </div>
 
         { 
-          post?.user?.posts.length > 0 &&
+          post?.user?.posts?.length > 0 &&
           
           <div className="bg-white border rounded-lg p-4">
               <h2 className='text-md font-bold mb-5'>More from 
@@ -293,7 +293,7 @@ function Details() {
                 post?.user?.posts?.map((curPost, index) => (
                   index < 4 && curPost?.id !== post?.id &&
 
-                  <section className=' flex flex-col text-gray-600'>
+                  <section key={index + Date.now()} className=' flex flex-col text-gray-600'>
                   
                     <a href={`/posts/${curPost?.id}`} className='mb-1 hover:text-textHover'>{curPost?.header}</a>
                   

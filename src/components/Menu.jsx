@@ -13,14 +13,14 @@ function Menu() {
     <article className='p-3 pb-5 border sticky top-0 hidden md:block rounded-lg max-w-[250px] bg-primary'>
 
       <h3 className='flex text-md font-bold items-center justify-between'>
-        Dev Community
+        Niko Community
       </h3 >
       
       <main className='mt-5'>
 
         <div className="flex flex-col gap-5 px-3">
           <h3 className='font-bold'>
-            DEV Community is a community of 1,022,645 amazing developers 
+            Niko Blog is a community of amazing developers 
           </h3>
 
           <p className='text-gray-600'>
@@ -122,9 +122,9 @@ function Menu() {
             </li>
 
             <li>
-              <Link to="/" className='text-gray-600 hover:text-textHover'>
+              <a target='_blank' href="https://github.com/akasaul" className='text-gray-600 hover:text-textHover'>
                 <FaGithub size={24} />
-              </Link>
+              </a>
             </li>
 
             <li>

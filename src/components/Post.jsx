@@ -43,7 +43,7 @@ const Post = ({post, setShowModal, profile}) => {
           <div className='flex self-start sm:self-auto text-gray-700'>
            {
               post?.tags.split(',').map(tag => 
-                <p className='p-1 text-sm'>#{tag} 
+                <p key={tag + parseInt(Math.random() * 1000) } className='p-1 text-sm'>#{tag} 
                 </p>  
               )
             }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaHeading } from 'react-icons/fa'
-import { MdClose, MdCode, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdLink, MdList, MdOutlineInsertPageBreak, MdPhotoCamera } from 'react-icons/md'
+import { MdClose, MdCode, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdLink, MdList, MdOutlineInsertPageBreak, MdPhotoCamera, MdSettingsApplications } from 'react-icons/md'
 import { setInputPos, setInputSelection } from '../utils/cursorPos';
 import { mapTools} from '../utils/tools';
 import { tags } from '../utils/tags';
@@ -19,6 +19,9 @@ function CreatePost() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [header, setHeader] = useState('');
   const [image, setImage] = useState();
+
+  // Same tool selected twice 
+  const [again, setAgain] = useState(false);
 
   // Redux states and dispatcher
   const dispatch = useDispatch();
@@ -40,46 +43,40 @@ function CreatePost() {
   // Mapping the selected tool with the markdown code
   useEffect(() => {
     setContent(prev => prev + mapTools(currentTool));
-  }, [currentTool])
+  }, [currentTool, again])
 
   // Set Cursor position
   useEffect(() => {
+
+    console.log(currentTool);
+
     switch(currentTool) {
       case 'bold': 
-        setInputPos(textRef.current, content.length - 2);
+        setInputPos(textRef.current, textRef.current.selectionStart - 2);
         return;
 
       case 'italic': 
-        setInputPos(textRef.current, content.length - 1);
+        setInputPos(textRef.current, textRef.current.selectionStart - 1);
         return;
 
       case 'link': 
-        setInputSelection(textRef.current, content.length - 4, content.length - 1);
+        setInputPos(textRef.current, textRef.current.selectionStart - 4);
         return
         
       case 'list': 
-        setInputPos(textRef.current, content.length);
-        return;
-
-      case 'heading': 
-        setInputPos(textRef.current, content.length);
-        return;
-
-      case 'underline': 
-        setInputPos(textRef.current, content.length - 4);
+        setInputPos(textRef.current, textRef.current.selectionStart);
         return;
 
       case 'break': 
-        setInputPos(textRef.current, content.length);
+        setInputPos(textRef.current, textRef.current.selectionStart);
         return;
 
       case 'code': 
-        setInputPos(textRef.current, content.length - 5);
+        setInputPos(textRef.current, textRef.current.selectionStart - 5);
         return;
 
     }
-  }, [content]);
-
+  }, [currentTool, again]);
 
   // State of error and success
   useEffect(() => {
@@ -112,12 +109,21 @@ function CreatePost() {
 
   // Setting Tool 
   const handleSetTool = (e) => {
+    // if the same tool selected twice
+    if(e.currentTarget.name === currentTool) {
+      setAgain(again => !again);
+      return;
+    }
     setCurrentTool(e.currentTarget.name);
   }
 
   // Adding the selected tag to cur state
   const handleSetTags = (tag) => {
     setShowResults(false);
+    if(selectedTags.includes(tag)) {
+      toast.error('a hashtag can only be used once');
+      return;
+    }
     setSelectedTags([...selectedTags, tag])
   }
  
@@ -173,11 +179,11 @@ function CreatePost() {
              
               <input type="text" name="title" value={header} onChange={e => setHeader(e.target.value)} placeholder='New post title here...' className='p-2 text-[24px] outline-none font-bold' />
 
-              <div className='flex gap-1'>
+              <div className='flex flex-wrap gap-1'>
                 {
                   selectedTags.length > 0 &&
                     selectedTags.map(tag => 
-                      <button key={tag} type='button' className='text-gray-600 flex item-center gap-1 p-1 px-2 rounded-lg hover:bg-textPrimary hover:text-white border'>#{tag}
+                      <button key={tag} type='button' className='text-gray-600 flex item-center gap-1 p-1 px-2 rounded-lg hover:bg-textPrimary hover:text-white border'>#{tag.length > 8 ? tag.slice(0, 8) + '...' : tag}
 
                       <MdClose className='hover:scale-110' onClick={() => setSelectedTags(selectedTags.filter(currentTag => currentTag !== tag))} />
                       </button>
@@ -235,15 +241,7 @@ function CreatePost() {
               <button onClick={handleSetTool} name="list" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdList  size={32}/>  
               </button>
-
-              <button onClick={handleSetTool} name="heading" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
-                <FaHeading size={21}/>  
-              </button>
               
-
-              <button onClick={handleSetTool} name="underline" type="button" className='hover:bg-textHover hover:text-accent grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
-                <MdFormatUnderlined size={28}/>  
-              </button>
 
               <button onClick={handleSetTool} name="break" type="button" className='hover:bg-textHover hover:text-white grid place-content-center rounded-lg p-1 sm:w-[40px] sm:h-[40px] h-[25px] w-[25px]'>
                 <MdOutlineInsertPageBreak size={22} />

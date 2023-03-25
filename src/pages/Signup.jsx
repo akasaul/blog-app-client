@@ -5,7 +5,7 @@ import { FaGithub } from 'react-icons/fa'
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../app/features/auth/authSlice";
 import toast from 'react-hot-toast';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../utils/API_URI";
 
 function Signup() {
@@ -41,12 +41,12 @@ function Signup() {
 
     // All the form states 
     const [formData, setFormData] = useState({
-        name: 'niko2121', 
-        email: '21sav@gmail.com', 
-        password: 'password', 
-        password2: 'password',
+        name: '', 
+        email: '', 
+        password: '', 
+        password2: '',
         profileImg: '',
-        username: 'niko2121',
+        username: '',
     })
 
     // All Error states 
@@ -226,7 +226,7 @@ function Signup() {
                     <MdPhotoCamera size={28} />
                 </label>
 
-                <p className="text-md font-bold">Add Image</p>
+                <p className="text-md font-bold">Add Profile</p>
             </div>
 
             <input type="file" id="upload-image" className="hidden" onChange={handleFile} name="profileImg" />
@@ -242,22 +242,13 @@ function Signup() {
 
         <button className='border rounded-md text-textHover hover:bg-textHover hover:text-primary hover:underline border-textHover flex items-center p-2 gap-2 justify-center cursor-pointer' disabled={isError} type="submit">Signup <MdLogin /></button>
 
-        
-        </form>
-{/*        
-        <div className="grid grid-cols-1 max-w-[700px] mx-auto gap-5 sm:grid-cols-2">
-            
-            <button onClick={() => handleAuth('google')} className="flex hover:scale-105 transition-all duration-150 border items-center gap-3 justify-center shadow-md p-2">
-                Signin With Google
-                <img src="/google.jpg" className="max-h-[32px]" alt="" />
-            </button>
+        <p className="flex items-center gap-3">
+            Already have an account? 
+            <Link to={'/login'} className='text-md
+            p-1 px-2 hover:bg-textHover rounded hover:text-white text-textHover'>Login</Link>
+        </p>
 
-            <button onClick={() => handleAuth('github')} className="flex hover:scale-105 transition-all duration-150 rounded-md hover:bg-black gap-3 hover:text-white text-black border items-center justify-center shadow-md p-2">
-                Signin With Github 
-                <FaGithub size={24} />
-            </button> 
-        
-        </div> */}
+        </form>
 
     </section>
   )

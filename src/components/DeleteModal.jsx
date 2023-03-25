@@ -13,10 +13,6 @@ function DeleteModal({setShowModal, header, id}) {
   const {post, isSuccess,isLoading, isDeleted} = useSelector(state => state.post);
 
   useEffect(() => {
-    dispatch(reset());
-  },[])
-
-  useEffect(() => {
     if(isDeleted) {
       navigate('/')
     }
@@ -32,11 +28,11 @@ function DeleteModal({setShowModal, header, id}) {
 
   return (
     <>
-      <div className='bg-gray-800 opacity-10 fixed top-0 bottom right-0 left-0
+      <div className='bg-gray-800 opacity-50 fixed top-0 bottom-0 z-[100] right-0 left-0
       '>
         </div>
 
-        <div className='absolute z-40 min-h-[500px] max-w-[700px]  mx-auto rounded-lg border p-5 bg-white opacity-100 top-[50px] left-[50px] right-[50px] bottom-[50px]'>
+        <div className='absolute z-[101] min-h-[500px] max-w-[700px]  mx-auto rounded-lg border p-5 bg-white opacity-100 top-[50px] left-[50px] right-[50px] bottom-[50px]'>
         
           <div>
             <button onClick={() => setShowModal(false)} className='hover:bg-textHover grid place-content-center hover:text-white rounded-full h-[30px] w-[30px]'>
