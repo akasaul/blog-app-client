@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:5000/comment';
+const API_URL = 'https://blog-app-backend-production-53d9.up.railway.app/comment';
 
 const postComment = async (formData, token) => {
 

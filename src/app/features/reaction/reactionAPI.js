@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:5000/reaction';
+const API_URL = 'https://blog-app-backend-production-53d9.up.railway.app/reaction';
 
 const postReaction = async (formData, token) => {
 

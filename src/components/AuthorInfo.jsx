@@ -8,6 +8,8 @@ function AuthorInfo({user, postedAt}) {
 
   const date = new Date(postedAt).toDateString().split(' ');
 
+  console.log(user?.profileImg);
+
   return (
     <div className='flex gap-3'>
       {

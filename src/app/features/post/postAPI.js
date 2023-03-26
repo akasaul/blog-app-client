@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:5000/post';
+const API_URL = 'https://blog-app-backend-production-53d9.up.railway.app/post';
 
 const createPost = async (formData, token) => {
   const res = await axios.post(API_URL, formData, {
