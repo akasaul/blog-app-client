@@ -52,8 +52,8 @@ function Login() {
         <form className="flex flex-col mx-auto  max-w-[500px] bg-primary p-5 border rounded-md gap-4 justify-center" 
         onSubmit={handleSubmit}>  
 
-        <h1 className="font-bold">Welcome to DEV Community</h1>
-        <p className="text-gray-600">DEV Community is a community of 1,022,645 amazing developers</p>
+        <h1 className="font-bold">Welcome to Niko's Comunity</h1>
+        <p className="text-gray-600">Niko's Comunity is a community amazing developers</p>
         
             <Input styles='p-1 border rounded-sm' name="username" onChange={handleChange} label={'username'} type='username' placeholder={'username'} value={username} />
             

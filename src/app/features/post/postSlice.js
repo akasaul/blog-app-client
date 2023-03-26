@@ -10,7 +10,8 @@ const initialState = {
     isFailed: false,
     isSuccess: false,
     errors: null,
-    isDeleted: false
+    isDeleted: false,
+    isEditing: true
 }
 
 
@@ -198,6 +199,7 @@ const postSlice = createSlice({
             state.isFailed = false;
             state.isSuccess = true;
             state.errors = null;
+            state.isEditing = false;
         }) 
           
     }

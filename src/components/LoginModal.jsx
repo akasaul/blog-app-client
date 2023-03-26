@@ -1,14 +1,16 @@
 import React from 'react'
+import { useRef } from 'react'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
 function LoginModal({setShowModal, message}) {
+  const modalRef = useRef();
   return (
     <>
-      <div className='bg-gray-800 opacity-10 fixed top-0 bottom-0 right-0 left-0
+      <div className='bg-gray-800 opacity-50 z-[100] fixed top-0 bottom-0 right-0 left-0 
       '>
         </div>
-        <div className='absolute z-40 max-w-[700px]  mx-auto rounded-lg border p-5 bg-white opacity-100 top-[50px] left-[50px] right-[50px] bottom-[50px]'>
+        <div className='absolute z-[101] max-w-[700px] max-h-[600px]  mx-auto rounded-lg border p-5 bg-white opacity-100 top-[50px] sm:left-[50px] sm:right-[50px] right-[10px] left-[10px] bottom-[50px]'>
           <div>
             <button onClick={() => setShowModal(false)} className='hover:bg-textHover grid place-content-center hover:text-white rounded-full h-[30px] w-[30px]'>
               <MdClose size={25} />
@@ -16,7 +18,7 @@ function LoginModal({setShowModal, message}) {
           </div>
 
           <div className='grid place-content-center'>
-            <img src="/signup.jpg" className='max-h-[250px] mx-auto' alt="sign up first" />
+            <img src="/signup.jpg" className='sm:max-h-[250px] max-h-[150px] mx-auto' alt="sign up first" />
             <h2 className='text-center font-sans text-lg text-gray-700 font-bold'>{
               message
             }</h2>

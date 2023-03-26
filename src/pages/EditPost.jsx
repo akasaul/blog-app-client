@@ -7,7 +7,7 @@ import { tags } from '../utils/tags';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../app/features/post/postSlice';
 import toast from 'react-hot-toast';
-import {  useNavigate, useSearchParams } from 'react-router-dom';
+import {  Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { reset } from '../app/features/post/postSlice';
 import { API_URL } from '../utils/API_URI';
 import Spinner from '../components/spinner/Spinner';
@@ -30,7 +30,7 @@ function EditPost() {
 
   // Redux states and dispatcher
   const dispatch = useDispatch();
-  const {post, isLoading, isFailed, isSuccess, errors} = useSelector(state => state.post)
+  const {post, isLoading, isFailed, isSuccess, errors, isEditing} = useSelector(state => state.post)
 
   const textRef = useRef();
   const tagRef = useRef();
@@ -94,16 +94,17 @@ function EditPost() {
         });
     }
 
-    if(isSuccess) {
+    if(isSuccess && !isEditing) {
         toast.success('Successfully Posted', {
             style: {
                 minWidth: '200px',
                 width: '80%', 
             }
         });
+        window.location.href = '/';
     }
 
-}, [isFailed, isSuccess])  
+}, [isFailed, isSuccess, isEditing])  
 
 
   // Setting Tool 
@@ -198,7 +199,7 @@ function EditPost() {
                 <div className='relative'>
                   {
                     selectedTags?.length < 4 &&
-                    <input type="text" ref={tagRef} onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
+                    <input type="text" enterkeyhint="done" ref={tagRef} onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
                   }
 
                   {
@@ -268,9 +269,9 @@ function EditPost() {
             Publish
           </button>
 
-          <button type='button' className='text-[#4F46E5] border-[#4F46E5] border h-10 w-24 rounded-md bg-white'>
+          <Link to={'/'} type='button' className='text-[#4F46E5] border-[#4F46E5] border h-10 w-24 grid place-content-center rounded-md bg-white'>
             Cancel
-          </button>
+          </Link>
 
         </div>
 

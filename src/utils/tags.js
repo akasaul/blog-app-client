@@ -4,7 +4,11 @@ export const tags = [
   'angular',
   'node',
   'react',
-  'redux', 
   'firebase',
-  'mongodb'
+  'mongodb',
+  'vue', 
+  'laravel', 
+  'php',
+  'html',
+  'css'
 ]

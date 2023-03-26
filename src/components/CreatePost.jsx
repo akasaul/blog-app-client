@@ -191,7 +191,7 @@ function CreatePost() {
                 <div className='relative'>
                   {
                     selectedTags.length < 4 &&
-                    <input type="text" ref={tagRef} onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
+                    <input enterkeyhint="done" type="text" ref={tagRef} onKeyPress={handleTagSubmit} onFocus={() => setShowResults(true)} className='outline-none p-1' placeholder='search tags' onChange={handleChange} />
                   }
 
                   {

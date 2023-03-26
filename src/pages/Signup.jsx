@@ -192,22 +192,17 @@ function Signup() {
 
     const handleAuth = async (provider) => {
         window.location.href = `${API_URL}/${provider}`;
-        // const newWindow = window.open(
-        //     authURI, 
-        //     '_blank', 
-        //     'width=500,height=500'
-        // )
     }
  
 
   return (
-    <section className="mt-4">
+    <section className="mt-4 mx-4">
        
          <form className="flex flex-col mx-auto  max-w-[700px] bg-primary p-5 border rounded-md gap-4 justify-center" 
         onSubmit={handleSubmit} encType='multipart/form-data'>  
 
-        <h1 className="font-bold">Welcome to DEV Community</h1>
-        <p className="text-gray-600">DEV Community is a community of 1,022,645 amazing developers</p>
+        <h1 className="font-bold">Welcome to Niko's blog</h1>
+        <p className="text-gray-600">Niko's Blog is a community of amazing developers</p>
 
         <div className="grid sm:grid-cols-2 grid-cols-1 gap-5">
         

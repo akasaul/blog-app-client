@@ -33,7 +33,7 @@ const Post = ({post, setShowModal, profile}) => {
        <div className='flex-1'>
        
         <div>
-          <p className='text-sm lowercase'>{post?.user?.username }</p>
+          <p className='text-sm lowercase font-bold'>{post?.user?.username }</p>
           <p className='text-xs'>{`${date[1]} ${date[2]}`}</p>
         </div>
 

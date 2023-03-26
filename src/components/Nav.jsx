@@ -86,14 +86,14 @@ function Nav() {
       
       <div className="container border-b bg-white max-w-[1200px] mx-auto flex justify-between px-4 py-2">
 
-          <div className='flex top items-center gap-3'>
+          <div className='flex top items-center sm:gap-3 gap-2'>
 
             <button className='hover:text-textHover md:hidden hover:bg-blue-100 h-full px-2 rounded-md' onClick={() => setShow(true)}>
               <MdMenu size={28} />
             </button>
 
             <Link to='/' className=''>
-              <img src="/resized_logo_UQww2soKuUsjaOGNB38o.png" className='h-10' alt="Nav Logo" />
+              <img src="/resized_logo_UQww2soKuUsjaOGNB38o.png" className='sm:h-10 h-8' alt="Nav Logo" />
             </Link>
 
               {/* Search Desktop */}
@@ -146,7 +146,6 @@ function Nav() {
 
             }
 
-
             <div className='flex relative items-center md:hidden gap-3'>
               {
                 showSearchBar &&
@@ -184,15 +183,13 @@ function Nav() {
             { 
              user ?
                <Avatar imgUrl={user?.profileImg} username={user?.username} id={user?.id} />:
-              <Link to='/signup' className='text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover hover:bg-textHover hover:text-primary hover:underline'>
-                Create Account
+              <Link to='/signup' className='sm:text-md text-textHover flex gap-2 items-center border px-3 py-1 rounded-lg border-textHover text-xs hover:bg-textHover hover:text-primary hover:underline'>
+                Signup
               </Link> 
-               
             }
 
           </div>
 
-        
         {/* Side bar  */}
         
           <section className='fixed z-[100] block md:hidden' 
@@ -211,8 +208,7 @@ function Nav() {
             <article className='fixed p-3 max-w-[300px] bg-primary top-0 bottom-0 left-0'>
             
               <h3 className='flex text-md font-bold items-center justify-between'>
-                Niko Community
-                
+                Niko Blog
                 <button className='h-10 w-10 rounded-md text-center grid place-content-center hover:text-textHover hover:bg-blue-100' onClick={() => setShow(false)}>
                   <MdClose size={22} />
                 </button>

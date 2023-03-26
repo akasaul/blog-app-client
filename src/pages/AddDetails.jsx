@@ -88,7 +88,7 @@ function AddDetails() {
         <form className="flex flex-col mx-auto  max-w-[500px] bg-primary p-5 border rounded-md gap-4 justify-center" 
         onSubmit={handleSubmit}>  
 
-        <h1 className="font-bold">Welcome to DEV Community</h1>
+        <h1 className="font-bold">Welcome to Niko's Blog</h1>
         <p className="text-gray-600">Tell us More about Yourself</p>
         
             <div className="flex flex-col gap-2">

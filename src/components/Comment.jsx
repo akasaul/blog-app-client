@@ -29,7 +29,7 @@ function Comment({comment, id}) {
           <div className="border rounded-lg p-3 bg-white">
 
             <div className='flex capitalize  items-center'>
-              <p>{comment.user.name.toLowerCase()}</p>
+              <p className='text-[15px] font-bold'>{comment.user.name.toLowerCase()}</p>
               <BsDot />
               <p className='text-xs p-0'>{`${date[1]} ${date[2]}`}</p>
             </div>

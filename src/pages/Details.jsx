@@ -109,7 +109,6 @@ function Details() {
       setFavCount(post?.favorites?.length);
 
     }
-
   }, [isSuccess])
 
   useEffect(() => {
@@ -254,7 +253,7 @@ function Details() {
         </div>
 
       {/* Profile Component */}
-      <div className='hidden flex-col gap-3 min-w-[250px] max-w-[350px] lg:flex '>
+      <div className='hidden flex-col gap-3 min-w-[250px] max-w-[350px] lg:flex'>
 
         <div className='bg-white flex flex-col gap-4  p-4 border rounded-lg '>
         

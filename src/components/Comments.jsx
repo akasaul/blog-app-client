@@ -40,7 +40,7 @@ function Comments({post}) {
 
 
   return (
-    <section className='my-10 border w-full bg-accent' id='comments'>
+    <section className='my-10 w-full bg-accent' id='comments'>
       {
         showLoginModal &&
           <LoginModal message={'Login to Comment'} setShowModal={setShowLoginModal}/>
