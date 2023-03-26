@@ -167,7 +167,7 @@ function Details() {
             <LoginModal message={'Login To Give Reaction'} setShowModal={setShowLogInModal} />
         }
 
-        <div className='min-w-[100px] border fixed md:sticky md:top-0 bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t
+        <div className='min-w-[100px] pb-4 border fixed md:sticky md:top-0 bottom-0 bg-white md:flex-col flex gap-5 items-center  justify-around md:justify-start left-0 right-0 md:bg-accent md:pt-14 p-2 border-t z-[99]
         md:border-none'>
 
           <div className='flex add-reaction flex-col items-center relative'>
@@ -175,7 +175,8 @@ function Details() {
             <p className='text-sm text-gray-700 hidden sm:block'>{
             count}</p>
           
-            <div className='absolute bg-white left-[30px] top-[-20px] md:top-0  w-[170px] px-4 justify-between flex items-center p-2 border gap-5 z-50 rounded-lg reactions'>
+            <div className='absolute bg-white left-[30px] md:bottom-[100px] top-[-50px] md:top-0 h-[60px] w-[170px] px-4 justify-between flex items-center p-2 border gap-5 z-50 rounded-lg reactions'>
+            
               <button onClick={() => handleReaction('heart')} className="text-[20px] flex flex-col items-center hover:scale-110">
                 💖
                 <span className='text-sm'>{hearts}</span>
@@ -259,10 +260,10 @@ function Details() {
         
           <div className='flex items-end gap-2 mt-2'>
               {
-              post?.user?.profileImg ? 
-              <img className='max-h-[40px] w-[40px] object-contain rounded-full' src={`${API_URL}/${post?.user?.profileImg}`} alt="" /> : 
-                <span className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
-                rounded-full from-slate-300 to-green-500'>{post?.user?.name?.slice(0, 1)}</span>
+                post?.user?.profileImg ? 
+                <img className='h-[40px] w-[40px] object-cover rounded-full' src={`${API_URL}/${post?.user?.profileImg}`} alt="" /> : 
+                  <span className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
+                  rounded-full from-slate-300 to-green-500'>{post?.user?.name?.slice(0, 1)}</span>
             }
             <h2 className='text-md font-bold'>{post?.user?.name}</h2>
           </div>

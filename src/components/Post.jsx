@@ -24,7 +24,7 @@ const Post = ({post, setShowModal, profile}) => {
         {
           post?.user?.profileImg  ?
           !profile &&
-          <img onClick={() => navigate(`profile/${post?.user?.id}`)} className='max-h-[40px] w-[40px] object-contain rounded-full cursor-pointer' src={`${API_URL}/${post?.user?.profileImg}`} alt="" /> : 
+          <img onClick={() => navigate(`profile/${post?.user?.id}`)} className='max-h-[40px] w-[40px] object-cover rounded-full cursor-pointer' src={`${API_URL}/${post?.user?.profileImg}`} alt="" /> : 
           !profile &&
           <span onClick={() => navigate(`profile/${post?.user?.id}`)} className='bg-gradient-to-r grid place-content-center font-bold border w-[40px] h-[40px]
           rounded-full cursor-pointer from-slate-300 to-green-500'>{post?.user?.username?.slice(0, 1)}</span>
@@ -42,6 +42,7 @@ const Post = ({post, setShowModal, profile}) => {
 
           <div className='flex self-start sm:self-auto text-gray-700'>
            {
+              post?.tags?.split(',')?.length > 0 &&
               post?.tags.split(',').map(tag => 
                 <p key={tag + parseInt(Math.random() * 1000) } className='p-1 text-sm'>#{tag} 
                 </p>  

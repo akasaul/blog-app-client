@@ -48,8 +48,6 @@ function CreatePost() {
   // Set Cursor position
   useEffect(() => {
 
-    console.log(currentTool);
-
     switch(currentTool) {
       case 'bold': 
         setInputPos(textRef.current, textRef.current.selectionStart - 2);

@@ -38,11 +38,6 @@ function Nav() {
     setSearchResults(posts);
   }, [isSuccess]);
 
-
-  // useEffect(() => {
-  //   dispatch(getPosts('relevant'));
-  // }, [])
-
   const toDate = (date) => {
     return  new Date(date).toDateString().split(' ');
   }
@@ -200,7 +195,7 @@ function Nav() {
         
         {/* Side bar  */}
         
-          <section className='fixed block md:hidden' 
+          <section className='fixed z-[100] block md:hidden' 
             style={{
               transform: !show && 'translateX(-3000px)',
               transition: 'transform ease-in-out 500'

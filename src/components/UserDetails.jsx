@@ -19,12 +19,12 @@ function UserDetails({user, self, isLoading}) {
   }
 
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex flex-col gap-5 mx-4'>
       <section className='p-3 bg-white border relative rounded-lg flex flex-col md:items-center'>
 
         {
           user?.profileImg  ? 
-          <img className='h-[60px] w-[60px] z-30 md:h-[100px] object-cover md:w-[100px] -mt-10 top-[-20px] rounded-full' src={`${API_URL}/${user?.profileImg}`} alt="" /> : 
+          <img className='h-[60px] w-[60px] sm:h-[80px] sm:w-[80px] z-30 md:h-[100px] object-cover md:w-[100px] ml-3 -mt-10 top-[-20px] rounded-full md:ml-0' src={`${API_URL}/${user?.profileImg}`} alt="" /> : 
           <div  className="hover:shadow-md grid 
           h-[60px] w-[60px] z-30 md:h-[100px] object-cover md:w-[100px] -mt-10 top-[-20px] rounded-full md:text-lg font-bold
           place-content-center bg-blue-400 px-2 py-2 sm:h-[40px] sm:w-[40px] ">{user?.username.slice(0, 1)}</div>

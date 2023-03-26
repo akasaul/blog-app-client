@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import {  useNavigate, useSearchParams } from 'react-router-dom';
 import { reset } from '../app/features/post/postSlice';
 import { API_URL } from '../utils/API_URI';
+import Spinner from '../components/spinner/Spinner';
 
 function EditPost() {
   const [params] = useSearchParams();
@@ -155,6 +156,10 @@ function EditPost() {
     formData.append('imageUrl', image);
 
     dispatch(updatePost({formData, id: params.get('id')}));
+  }
+
+  if(isLoading) {
+    return <Spinner />
   }
 
   return (

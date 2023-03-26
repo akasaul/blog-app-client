@@ -56,7 +56,7 @@ function Comments({post}) {
 
         {
           user?.profileImg && isLoggedIn ?
-          <img className='max-h-[30px] w-[30px] object-contain rounded-full' src={`${API_URL}/${user?.profileImg}`} alt="" /> : 
+          <img className='max-h-[30px] w-[30px] object-cover rounded-full' src={`${API_URL}/${user?.profileImg}`} alt="" /> : 
           <span className='bg-gradient-to-r grid place-content-center font-bold border w-[30px] h-[30px]
           rounded-full from-slate-300 to-green-500'>{user?.username?.slice(0, 1)}</span>
         }
