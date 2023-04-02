@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'dizzy-toothpaste-production.up.railway.app/post';
+const API_URL = 'http://dizzy-toothpaste-production.up.railway.app/post';
 
 const createPost = async (formData, token) => {
   const res = await axios.post(API_URL, formData, {

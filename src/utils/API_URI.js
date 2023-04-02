@@ -1,1 +1,1 @@
-export const API_URL = 'dizzy-toothpaste-production.up.railway.app';
+export const API_URL = 'http://dizzy-toothpaste-production.up.railway.app';
