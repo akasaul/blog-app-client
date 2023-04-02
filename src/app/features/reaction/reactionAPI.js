@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'https://blog-app-backend-production-53d9.up.railway.app/reaction';
+const API_URL = 'dizzy-toothpaste-production.up.railway.app/reaction';
 
 const postReaction = async (formData, token) => {
 

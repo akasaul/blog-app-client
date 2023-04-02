@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'https://blog-app-backend-production-53d9.up.railway.app/auth';
+const API_URL = 'dizzy-toothpaste-production.up.railway.app/auth';
 
 const signup = async (formData) => {
   const res = await axios.post(API_URL + '/signup', formData, {

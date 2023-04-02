@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'https://blog-app-backend-production-53d9.up.railway.app/user';
+const API_URL = 'dizzy-toothpaste-production.up.railway.app/user';
 
 
 const addUserDetails = async (token, id, formData) => {
