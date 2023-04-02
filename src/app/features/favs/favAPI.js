@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://dizzy-toothpaste-production.up.railway.app/favorite';
+const API_URL = 'https://dizzy-toothpaste-production.up.railway.app/favorite';
 
 const toggleFav = async (id, token) => {
 
